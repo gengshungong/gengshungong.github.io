@@ -1,0 +1,32 @@
+I"�<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>     <span class="c1">// 方式1</span>
+    <span class="kd">const</span> <span class="nx">eve</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Event</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">test dispatch</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">eve</span><span class="p">);</span>
+
+    <span class="c1">// 方式2</span>
+    <span class="kd">const</span> <span class="nx">customEvent</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CustomEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">test</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">test dispatch</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">customEvent</span><span class="p">);</span>
+
+    <span class="c1">// 方式3</span>
+    <span class="c1">// 创建事件对象：</span>
+    <span class="kd">const</span> <span class="nx">ev</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">MouseEvents</span><span class="dl">'</span><span class="p">)</span>  <span class="c1">//HTMLEvents MouseEvents UIEvents</span>
+    <span class="c1">// 初始化事件对象：</span>
+    <span class="nx">ev</span><span class="p">.</span><span class="nx">initEvent</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>  <span class="c1">// data是数据</span>
+    <span class="c1">// 分派事件：</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">ev</span><span class="p">)</span>
+    <span class="c1">// 监听事件：</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span>
+    <span class="p">})</span>
+
+    <span class="c1">// 方式4  type =&gt; MouseEvents, MutationEvents, HTMLEvents</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="dl">'</span><span class="s1">#id</span><span class="dl">'</span><span class="p">).</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">自定义事件被触发了</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">});</span>
+</code></pre></div></div>
+:ET

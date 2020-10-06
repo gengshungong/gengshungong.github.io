@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>es6个人的理解 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2019/12/21/es6%E4%B8%AA%E4%BA%BA%E7%9A%84%E7%90%86%E8%A7%A3/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="es6个人的理解, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>es6个人的理解</h1>
+		    <p>Post on Dec 21, 2019 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#-ref"></a> /
+    <a href="/tag/#es6-ref">es6</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">es6个人的理解</h1>
+              <!--
+                <p class="post-meta">Dec 21, 2019</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Dec 21, 2019</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <blockquote>
+  <p>主流浏览器使用的是 es5,es6(es2015)是比较新的一个标准,es7 是 2016,es8 是 2017,es9 是 2018,es10 是 2019</p>
+</blockquote>
+
+<ul>
+  <li>在严格模式下 <code class="highlighter-rouge">use strict</code></li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">`let块级作用域`</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span>   <span class="c1">//apple</span>
+<span class="o">-----------------------------</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span>   <span class="c1">//error</span>
+
+<span class="s2">`const恒量`</span>
+<span class="kd">const</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span>  <span class="c1">//apple</span>
+<span class="kd">const</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span>  <span class="c1">//error 不可重复声明</span>
+<span class="nx">fruit</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span> <span class="c1">//error  不可重新赋值</span>
+
+<span class="s2">`解构数组 Array destructuring`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="kd">const</span> <span class="p">[</span><span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span><span class="p">]</span> <span class="o">=</span> <span class="nx">breakfast</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span><span class="p">)</span> <span class="c1">//apple bananer</span>
+
+<span class="s2">`解构对象 Object destructuring`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="na">apple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="na">bananer</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span> <span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// const { apple: apple, bananer: bananer } = breakfast()</span>
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">breakfast</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span><span class="p">)</span>  <span class="c1">//apple bananer</span>
+
+<span class="s2">`模板字符串 Template Strings`</span>
+<span class="kd">let</span> <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">apple</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="s2">`今天吃的是</span><span class="p">${</span><span class="nx">bananer</span><span class="p">}</span><span class="s2">和</span><span class="p">${</span><span class="nx">apple</span><span class="p">}</span><span class="s2">`</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">)</span>  <span class="c1">// 今天吃的是apple和bananer</span>
+
+<span class="s2">`带标签的模板字符串 Tagged Strings`</span>
+<span class="kd">let</span> <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">apple</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="nx">app</span><span class="s2">`今天吃的是</span><span class="p">${</span><span class="nx">bananer</span><span class="p">}</span><span class="s2">和</span><span class="p">${</span><span class="nx">apple</span><span class="p">}</span><span class="s2">`</span>
+<span class="kd">function</span> <span class="nx">app</span><span class="p">(</span><span class="nx">string</span><span class="p">,</span> <span class="p">...</span><span class="nx">values</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">values</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">app</span><span class="p">()</span>   <span class="c1">// apple bananer</span>
+
+<span class="s2">`在字符串里是否包含其他字符串`</span>
+<span class="kd">let</span> <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">apple</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+<span class="kd">const</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="s2">`今天吃的是</span><span class="p">${</span><span class="nx">bananer</span><span class="p">}</span><span class="s2">和</span><span class="p">${</span><span class="nx">apple</span><span class="p">}</span><span class="s2">`</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">endsWith</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">))</span>   <span class="c1">// true</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="dl">'</span><span class="s1">今天</span><span class="dl">'</span><span class="p">))</span>   <span class="c1">// true</span>
+
+<span class="s2">`默认参数 Default Parameter Values`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">(</span><span class="nx">apple</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">`</span><span class="p">${</span><span class="nx">apple</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="nx">bananer</span><span class="p">}</span><span class="s2">`</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">())</span>   <span class="c1">//apple bananer</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">(</span><span class="dl">'</span><span class="s1">orange</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">xigua</span><span class="dl">'</span><span class="p">))</span>  <span class="c1">// orange xigua</span>
+
+<span class="s2">`展开操作符 Spread`</span>
+<span class="kd">let</span> <span class="nx">fruit</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(...</span><span class="nx">fruit</span><span class="p">)</span>  <span class="c1">// apple bananer</span>
+
+<span class="s2">`剩余操作符 Rest`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="p">...</span><span class="nx">bananer</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s2">`</span><span class="p">${</span><span class="nx">apple</span><span class="p">}</span><span class="s2">和</span><span class="p">${</span><span class="nx">bananer</span><span class="p">}</span><span class="s2">`</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">xiangjiao</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">xigua</span><span class="dl">'</span><span class="p">))</span>
+ <span class="c1">//apple和banaer xiangjiao xigua</span>
+
+<span class="s2">`解构参数 Destructured Parameters`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">(</span>
+  <span class="nx">apple</span><span class="p">,</span>
+  <span class="nx">bananer</span><span class="p">,</span>
+  <span class="p">{</span> <span class="nx">xiangjiao</span><span class="p">,</span> <span class="nx">xigua</span> <span class="p">}</span> <span class="o">=</span> <span class="p">{</span> <span class="na">xiangjiao</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xiangjiao</span><span class="dl">'</span><span class="p">,</span> <span class="na">xigua</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xigua</span><span class="dl">'</span> <span class="p">}</span>
+<span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span><span class="p">,</span> <span class="nx">xiangjiao</span><span class="p">,</span> <span class="nx">xigua</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+  <span class="nx">breakfast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">xiangjiao</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xiangjiao1</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">xigua</span><span class="p">:</span> <span class="dl">'</span><span class="s1">xigua1</span><span class="dl">'</span>
+  <span class="p">})</span>
+<span class="p">)</span>     <span class="c1">// apple bananer xiangjiao1 xigua1</span>
+
+<span class="s2">`函数的名字-name属性`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">()</span> <span class="p">{}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>   <span class="c1">//breakfast</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>   <span class="c1">//breakfast</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">aaa</span><span class="p">()</span> <span class="p">{}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>   <span class="c1">//aaa</span>
+
+<span class="s2">`箭头函数 Arrow Functions`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">()</span> <span class="p">{}</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{}</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="nx">fruit</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">fruit</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">))</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="nx">bananer</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">apple</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bananer</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">))</span>
+
+<span class="s2">`对象表达式`</span>
+<span class="kd">let</span> <span class="nx">apple</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+<span class="kd">let</span> <span class="nx">fun</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">apple</span><span class="p">:</span> <span class="nx">apple</span><span class="p">,</span>
+  <span class="na">bananer</span><span class="p">:</span> <span class="nx">bananer</span><span class="p">,</span>
+  <span class="na">fun</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">apple</span><span class="p">,</span>
+  <span class="nx">bananer</span><span class="p">,</span>
+  <span class="nx">fun</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">.</span><span class="nx">fun</span><span class="p">())</span>
+
+<span class="s2">`对比两个值是否相等 Object.is()`</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">+</span><span class="mi">0</span> <span class="o">===</span> <span class="o">-</span><span class="mi">0</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="kc">NaN</span> <span class="o">===</span> <span class="kc">NaN</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="kc">NaN</span><span class="p">,</span> <span class="kc">NaN</span><span class="p">))</span>
+
+<span class="s2">`把一个对象的值赋值给另一个对象 Object.assign()`</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">,</span> <span class="p">{</span> <span class="na">apple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span> <span class="p">})</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">)</span> <span class="o">-</span>
+  <span class="c1">// 设置对象的prototype -Object.setPrototypeOf() (写操作)</span>
+  <span class="c1">// Object.getPrototypeOf()  (读操作)</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">apple</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">rest</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">bananer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">===</span> <span class="nx">breakfast</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">apple</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">sunny</span><span class="p">)</span> <span class="o">===</span> <span class="nx">breakfast</span><span class="p">)</span>
+<span class="nb">Object</span><span class="p">.</span><span class="nx">setPrototypeOf</span><span class="p">(</span><span class="nx">sunny</span><span class="p">,</span> <span class="nx">rest</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">bananer</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">===</span> <span class="nx">rest</span><span class="p">)</span>
+
+<span class="s2">`__proto__`</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">apple</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">rest</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">bananer</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">__proto__</span><span class="p">:</span> <span class="nx">breakfast</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">__proto__</span><span class="p">.</span><span class="nx">apple</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">getPrototypeOf</span><span class="p">(</span><span class="nx">sunny</span><span class="p">)</span> <span class="o">===</span> <span class="nx">breakfast</span><span class="p">)</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">__proto__</span> <span class="o">=</span> <span class="nx">rest</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">bananer</span><span class="p">())</span>
+
+<span class="s2">`super`</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">apple</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">__proto__</span><span class="p">:</span> <span class="nx">breakfast</span><span class="p">,</span>
+  <span class="nx">apple</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">super</span><span class="p">.</span><span class="nx">apple</span><span class="p">()</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">apple</span><span class="p">())</span>
+
+<span class="s2">` Iterators 迭代器`</span>
+<span class="kd">function</span> <span class="nx">breakfast</span><span class="p">(</span><span class="nx">foods</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">next</span><span class="p">()</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">done</span> <span class="o">=</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="nx">foods</span><span class="p">.</span><span class="nx">length</span>
+      <span class="kd">let</span> <span class="nx">value</span> <span class="o">=</span> <span class="nx">done</span> <span class="p">?</span> <span class="kc">undefined</span> <span class="p">:</span> <span class="nx">foods</span><span class="p">[</span><span class="nx">i</span><span class="o">++</span><span class="p">]</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="na">value</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
+        <span class="na">done</span><span class="p">:</span> <span class="nx">done</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="nx">breakfast</span><span class="p">([</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">])</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+
+<span class="s2">` Generators 生成器  =&gt; 迭代器`</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">breakfast</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">yield</span> <span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span>
+  <span class="k">yield</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="nx">breakfast</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="kd">function</span><span class="o">*</span> <span class="nx">breakfast</span><span class="p">(</span><span class="nx">foods</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">foods</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">yield</span> <span class="nx">foods</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="nx">breakfast</span><span class="p">([</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">])</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">next</span><span class="p">())</span>
+
+<span class="s2">`类 classes`</span>
+<span class="kd">class</span> <span class="nx">BreakFast</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">foods</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">food</span> <span class="o">=</span> <span class="nx">foods</span>
+  <span class="p">}</span>
+  <span class="nx">cook</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">food</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BreakFast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">cook</span><span class="p">()</span>
+
+<span class="s2">`get set`</span>
+<span class="kd">class</span> <span class="nx">BreakFast</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">foods</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">food</span> <span class="o">=</span> <span class="nx">foods</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dish</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="p">}</span>
+  <span class="kd">get</span> <span class="nx">menu</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">dish</span>
+  <span class="p">}</span>
+  <span class="kd">set</span> <span class="nx">menu</span><span class="p">(</span><span class="nx">dish</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">dish</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">dish</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">cook</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">food</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BreakFast</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">menu</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bananer</span><span class="dl">'</span><span class="p">]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">menu</span><span class="p">)</span>
+
+<span class="s2">`静态方法 static`</span>
+<span class="kd">class</span> <span class="nx">BreakFast</span> <span class="p">{</span>
+  <span class="kd">static</span> <span class="nx">cook</span><span class="p">(</span><span class="nx">food</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">food</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">BreakFast</span><span class="p">.</span><span class="nx">cook</span><span class="p">(</span><span class="dl">'</span><span class="s1">apple</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="s2">`继承 extends`</span>
+<span class="kd">class</span> <span class="nx">Person</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">birthday</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">birthday</span> <span class="o">=</span> <span class="nx">birthday</span>
+  <span class="p">}</span>
+  <span class="nx">cook</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="s2">`</span><span class="p">${</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2"> </span><span class="p">${</span><span class="k">this</span><span class="p">.</span><span class="nx">birthday</span><span class="p">}</span><span class="s2">`</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nx">Other</span> <span class="kd">extends</span> <span class="nx">Person</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">birthday</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">super</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">birthday</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">let</span> <span class="nx">other</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Other</span><span class="p">(</span><span class="dl">'</span><span class="s1">liu</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">aaa</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">other</span><span class="p">.</span><span class="nx">cook</span><span class="p">())</span>
+
+<span class="s2">`Set`</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Set</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">size</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">item</span><span class="p">))</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">clear</span><span class="p">()</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">)</span>
+
+<span class="s2">` Map`</span>
+<span class="kd">let</span> <span class="nx">sunny</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Map</span><span class="p">()</span>
+<span class="kd">let</span> <span class="nx">breakfast</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{},</span>
+  <span class="nx">apple</span> <span class="o">=</span> <span class="p">{},</span>
+  <span class="nx">bananer</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">aaa</span><span class="dl">'</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">,</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="nx">apple</span><span class="p">,</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="kd">set</span><span class="p">(</span><span class="nx">bananer</span><span class="p">,</span> <span class="dl">'</span><span class="s1">a</span><span class="dl">'</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">size</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="nx">breakfast</span><span class="p">))</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="nx">apple</span><span class="p">)</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">sunny</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">apple</span><span class="p">))</span>
+<span class="nx">sunny</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">value</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">key</span><span class="p">))</span>
+</code></pre></div></div>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

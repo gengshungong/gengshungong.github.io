@@ -1,0 +1,206 @@
+I"><h4 id="单例模式">单例模式</h4>
+<blockquote>
+  <p>单例模式保证类只有一个实例，并提供一个访问它的全局访问点
+<code class="highlighter-rouge">例子</code>
+```js
+ function getSingle(fn){
+    let result</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>return function (){
+    return result || (result=fn.apply(this,arguments))
+}
+</code></pre></div></div>
+
+<p>}</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### 策略模式
+
+&gt; 解决一个问题的多个方法，将每种方法独立封装起来，相互可以替换 &lt;br/&gt;
+  一个基于策略模式的程序至少由两部分组成，一个是一组策略类，策略类封装了具体的算法，并负责具体的计算过程，一个是环境类，环境类接受客户的请求，随后把请求委托给某个策略类
+
+  &lt;h4&gt;策略模式的一个使用场景：表单验证，将不同验证规则封装成一组策略，避免了多重条件判断语句，一句经典的话: 在函数作为一等对象的语言中，策略模式是隐性的，策略就是值为函数的变量&lt;/h4&gt;
+
+`例子`
+```js
+    const S = (salary)=&gt;{
+        return salary * 4
+    }
+    const A = (salary)=&gt;{
+        return salary * 3
+    }
+    const B = (salary)=&gt;{
+        return salary * 2
+    }
+    const calculate = (fun,salary)=&gt;{
+        return fun(salary)
+    }
+    calculate(S,1000)
+</code></pre></div></div>
+
+<h4 id="代理模式">代理模式</h4>
+
+<blockquote>
+  <p>代理模式为一个对象提供一个代用品或占位符，以便控制对它的访问<br />
+  不直接和本体进行交互，而是在中间加入一层代理，代理来处理一些不需要本体做的操作</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">myImage</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">imgNode</span><span class="o">=</span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">img</span><span class="dl">'</span><span class="p">)</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">imgNode</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">setImg</span><span class="p">(</span><span class="nx">src</span><span class="p">){</span>
+            <span class="nx">imgNode</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">src</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">proxyImg</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">img</span> <span class="o">=</span><span class="k">new</span> <span class="nx">Image</span><span class="p">()</span>
+    <span class="nx">img</span><span class="p">.</span><span class="nx">onload</span><span class="o">=</span><span class="kd">function</span><span class="p">(){</span>
+        <span class="nx">myImage</span><span class="p">.</span><span class="nx">setSrc</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">src</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">setImg</span><span class="p">(</span><span class="nx">src</span><span class="p">){</span>
+            <span class="nx">myImage</span><span class="p">.</span><span class="nx">setSrc</span><span class="p">(</span><span class="err">‘</span><span class="nx">loading</span><span class="p">.</span><span class="nx">png</span><span class="err">’</span><span class="p">)</span>
+            <span class="nx">img</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="nx">src</span>      
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="观察者和发布订阅模式">观察者和发布订阅模式</h4>
+<p><code class="highlighter-rouge">观察者和发布、订阅模式使程序的两部分不必紧密耦合在一起，而是通过通知的方式来通信</code></p>
+<ul>
+  <li>观察者模式
+    <blockquote>
+      <p>一个对象维持一系列依赖于它的对象，当对象状态发生改变时主动通知这些依赖对象</p>
+      <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Subject</span><span class="p">{</span>
+      <span class="kd">constructor</span><span class="p">(){</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">observers</span><span class="o">=</span><span class="p">[]</span>
+      <span class="p">}</span>
+      <span class="nx">add</span><span class="p">(</span><span class="nx">observer</span><span class="p">){</span>
+          <span class="k">this</span><span class="p">.</span><span class="nx">observers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">observer</span><span class="p">)</span>
+      <span class="p">}</span>
+      <span class="nx">notify</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+          <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">observer</span> <span class="k">of</span> <span class="k">this</span><span class="p">.</span><span class="nx">observers</span><span class="p">){</span>
+              <span class="nx">observer</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+          <span class="p">}</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="kd">class</span> <span class="nx">Observer</span><span class="p">{</span>
+      <span class="nx">update</span><span class="p">(){</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre></div>      </div>
+      <p>观察者模式的缺点是对象必须自己维护一个观察者列表，当对象状态有更新时，直接调用其他对象的方法，所以，在使用中，我们一般采用一种变形方式，即发布订阅模式</p>
+    </blockquote>
+  </li>
+  <li>发布订阅模式
+    <blockquote>
+      <p>该模式在主题和观察者之间加入一层管道，使得主题和观察者不直接交互，发布者将内容发布到管道，订阅者订阅管道里的内容，目的是避免订阅者和发布者之间产生依赖关系</p>
+    </blockquote>
+  </li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Pubsub</span><span class="p">{</span>
+
+        <span class="nx">constuctor</span><span class="p">(){</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="o">=</span><span class="p">{}</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">subId</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="p">}</span>
+
+        <span class="nx">publish</span><span class="p">(</span><span class="nx">topic</span><span class="p">,</span><span class="nx">data</span><span class="p">){</span>
+            <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">])</span> <span class="k">return</span>
+            <span class="kd">const</span> <span class="nx">subs</span><span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span>
+            <span class="kd">const</span> <span class="nx">len</span><span class="o">=</span><span class="nx">subs</span><span class="p">.</span><span class="nx">length</span>
+            <span class="k">while</span><span class="p">(</span><span class="nx">len</span><span class="o">--</span><span class="p">){</span>
+                <span class="nx">subs</span><span class="p">[</span><span class="nx">len</span><span class="p">].</span><span class="nx">update</span><span class="p">(</span><span class="nx">topic</span><span class="p">,</span><span class="nx">data</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="cm">/**
+        *  topic {string}
+        *  update {function}
+        */</span>
+        <span class="nx">subscribe</span><span class="p">(</span><span class="nx">topic</span><span class="p">,</span><span class="nx">update</span><span class="p">){</span>
+            <span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span><span class="o">=</span><span class="p">[])</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">subId</span><span class="o">++</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">].</span><span class="nx">push</span><span class="p">({</span>
+                <span class="na">token</span><span class="p">:</span><span class="k">this</span><span class="p">.</span><span class="nx">subId</span><span class="p">,</span>
+                <span class="nx">update</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+
+        <span class="nx">unsubscribe</span><span class="p">(</span><span class="nx">token</span><span class="p">){</span>
+            <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">topic</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">topic</span><span class="p">)){</span>
+                    <span class="kd">const</span> <span class="nx">current</span><span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">pubsub</span><span class="p">[</span><span class="nx">topic</span><span class="p">]</span>
+                    <span class="k">for</span><span class="p">(</span><span class="kd">let</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nx">j</span><span class="o">=</span><span class="nx">current</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">j</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+                        <span class="k">if</span><span class="p">(</span><span class="nx">current</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">token</span><span class="o">==</span><span class="nx">token</span><span class="p">){</span>
+                            <span class="nx">current</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">return</span> <span class="nx">token</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="k">return</span> <span class="k">this</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="命令模式">命令模式</h4>
+<blockquote>
+  <p>命令模式的命令指的是一个执行某些特定事情的指令
+命令模式最常见的使用场景是：有时候需要向某些对象发送请求，但是不知道请求的接受者是谁，也不知道被请求的操作是什么。此时希望用一种松耦合的方式来设计程序，是使得请求发送者和接受者消除彼此之间的耦合关系</p>
+</blockquote>
+
+<h3 id="几大原则">几大原则</h3>
+<blockquote>
+  <p>单一职责原则SRP <br />
+<span style="color:red">
+  一个类只负责一个功能领域的相应职责，即就一个类而言，应该只有一个引起它变化的原因。
+单一职责原则是实现高内聚、低耦合的指导方针，它是最简单但又最难运用的原则，需要设计人员发现类的不同职责并将其分离，而发现类的多重职责需要设计人员具有较强的分析设计能力和相关实践经验。
+</span></p>
+</blockquote>
+
+<blockquote>
+  <p>开闭原则OCP
+<span style="color:red">
+一个软件实体应当对扩展开放，对修改关闭。即软件实体应尽量在不修改原有代码的情况下进行扩展。
+在开闭原则的定义中，软件实体可以指一个软件模块、一个由多个类组成的局部结构或一个独立的类
+<span></span></span></p>
+</blockquote>
+
+<blockquote>
+  <p>里氏替换原则LSP
+<span style="color:red">
+所有引用父类的地方必须能透明地使用其子类的对象。
+里氏替换原则告诉我们：在软件中将一个基类对象替换成它的子类对象，程序将不会产生任何错误和异常，反过来则不成立，如果一个软件实体使用的是一个子类对象，它不一定能够使用基类对象
+<span></span></span></p>
+</blockquote>
+
+<blockquote>
+  <p>依赖倒置原则DIP
+<span style="color:red">
+抽象不应该依赖于细节，细节应当依赖于抽象，要针对接口编程，而不是针对实现编程。
+<span></span></span></p>
+</blockquote>
+
+<blockquote>
+  <p>接口隔离原则ISP
+<span style="color:red">
+使用多个专门的接口，而不使用单一的总接口，即客户端不应该依赖那些它不需要的接口。
+根据接口隔离原则，当一个接口太大时，我们需要将它分割成一些更细小的接口，使用该接口的客户端仅需知道与之相关的方法即可。每一个接口应该承担一种相对独立的角色，不干不该干的事，该干的事都要干。
+<span></span></span></p>
+</blockquote>
+
+<blockquote>
+  <p>迪米特法则LoD
+<span style="color:red">
+一个软件实体应当尽可能少地与其他实体发生相互作用。
+如果一个系统符合迪米特法则，那么当其中某一个模块发生修改时，就会尽量少地影响其他模块，扩展会相对容易，这是对软件实体之间通信的限制，迪米特法则要求限制软件实体之间通信的宽度和深度。迪米特法则可降低系统的耦合度，使类与类之间保持松散的耦合关系。
+<span></span></span></p>
+</blockquote>
+:ET

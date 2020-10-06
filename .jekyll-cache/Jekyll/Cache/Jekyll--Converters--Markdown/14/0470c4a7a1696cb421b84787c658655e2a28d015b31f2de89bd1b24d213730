@@ -1,0 +1,81 @@
+I"�#<h5 id="在react项目中使用富文本编辑器">在react项目中使用富文本编辑器</h5>
+
+<p>首先，先安装 draftjs-to-html、react-draft-wysiwyg</p>
+
+<blockquote>
+  <p>yarn add draftjs-to-html react-draft-wysiwyg</p>
+</blockquote>
+
+<p>话不多说，然后直接上代码：(这里使用的是antd组件进行组合使用)</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span><span class="p">,</span> <span class="nx">Card</span><span class="p">,</span> <span class="nx">Modal</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">antd</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Editor</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-draft-wysiwyg</span><span class="dl">'</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">react-draft-wysiwyg/dist/react-draft-wysiwyg.css</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">draftjs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">draftjs-to-html</span><span class="dl">'</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">RichText</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+
+    <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">showRichText</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">editorContent</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>  
+        <span class="na">editorState</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="c1">// 清空富文本内容</span>
+    <span class="nx">handleClearContent</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="na">editorState</span><span class="p">:</span> <span class="dl">''</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="c1">// 展示富文本内容</span>
+    <span class="nx">handleGetText</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="na">showRichText</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="c1">// 监听展示内容变化</span>
+    <span class="nx">onEditorChange</span> <span class="o">=</span> <span class="p">(</span><span class="nx">editorContent</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="nx">editorContent</span><span class="p">,</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+    <span class="c1">// 监听富文本编辑器内容的变化</span>
+    <span class="nx">onEditorStateChange</span> <span class="o">=</span> <span class="p">(</span><span class="nx">editorState</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="nx">editorState</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="p">{</span> <span class="nx">editorContent</span><span class="p">,</span> <span class="nx">editorState</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Card</span> <span class="nx">style</span><span class="o">=&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">primary</span><span class="dl">"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClearContent</span><span class="p">}</span><span class="o">&gt;</span><span class="err">清空内容</span><span class="o">&lt;</span><span class="sr">/Button</span><span class="err">&gt;
+</span>                    <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">primary</span><span class="dl">"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleGetText</span><span class="p">}</span><span class="o">&gt;</span><span class="err">获取</span><span class="nx">HTML</span><span class="err">文本</span><span class="o">&lt;</span><span class="sr">/Button</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="sr">/Card</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="nx">Card</span> <span class="nx">title</span><span class="o">=</span><span class="dl">"</span><span class="s2">富文本编辑器</span><span class="dl">"</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Editor</span>
+                        <span class="nx">editorState</span><span class="o">=</span><span class="p">{</span><span class="nx">editorState</span><span class="p">}</span>
+                        <span class="nx">onContentStateChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onEditorChange</span><span class="p">}</span>
+                        <span class="nx">onEditorStateChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onEditorStateChange</span><span class="p">}</span>
+                    <span class="sr">/</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="sr">/Card</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="nx">Modal</span>
+                    <span class="nx">title</span><span class="o">=</span><span class="dl">"</span><span class="s2">富文本</span><span class="dl">"</span>
+                    <span class="nx">visible</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showRichText</span><span class="p">}</span>
+                    <span class="nx">onCancel</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+                            <span class="na">showRichText</span><span class="p">:</span> <span class="kc">false</span>
+                        <span class="p">})</span>
+                    <span class="p">}}</span>
+                    <span class="nx">footer</span><span class="o">=</span><span class="p">{</span><span class="kc">null</span><span class="p">}</span>
+                <span class="o">&gt;</span>
+                    <span class="p">{</span><span class="nx">draftjs</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">editorContent</span><span class="p">)}</span>
+                <span class="o">&lt;</span><span class="sr">/Modal</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>该api有趣，后续继续更新。。。</p>
+:ET

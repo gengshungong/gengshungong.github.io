@@ -1,0 +1,125 @@
+I"�Q<h5 id="首先编写html页面的基础代码并引入api文件">首先编写HTML页面的基础代码,并引入API文件</h5>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1, shrink-to-fit=no"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>BMap<span class="nt">&lt;/title&gt;</span>
+    <span class="c">&lt;!-- 百度地图API js文件  ak=密钥 --&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"http://api.map.baidu.com/api?v=2.0&amp;ak=Z6VLb33wYXOcBcWtpVMjPvbU0DpUdQup"</span><span class="nt">&gt;&lt;/script&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"root"</span><span class="nt">&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<h5 id="然后初始化地图等一些逻辑操作">然后初始化地图等一些逻辑操作</h5>
+<p>1.话不多说，直接上代码</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="c1">// 列表请求 https://www.easy-mock.com模拟数据</span>
+    <span class="kd">var</span> <span class="nx">requestList</span> <span class="o">=</span> <span class="p">()</span><span class="o">=&gt;</span><span class="p">{</span>
+        <span class="nx">axios</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+            <span class="na">url</span><span class="p">:</span><span class="dl">'</span><span class="s1">https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api/map/bike_list</span><span class="dl">'</span><span class="p">,</span>
+            <span class="na">data</span><span class="p">:{</span>
+                <span class="na">params</span><span class="p">:</span><span class="nx">params</span>
+            <span class="p">}</span>
+        <span class="p">}).</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="nx">res</span><span class="p">){</span>
+                <span class="nx">renderMap</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">result</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+
+
+    <span class="c1">// 渲染地图</span>
+    <span class="kd">function</span> <span class="nx">renderMap</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">route_list</span><span class="p">;</span>
+        <span class="nx">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nb">Map</span><span class="p">(</span><span class="dl">"</span><span class="s2">root</span><span class="dl">"</span><span class="p">,</span> <span class="p">{</span><span class="na">enableMapClick</span><span class="p">:</span> <span class="kc">false</span><span class="p">});</span>
+        <span class="kd">var</span> <span class="nx">gps1</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">,</span><span class="dl">'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">startPoint</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Point</span><span class="p">(</span><span class="nx">gps1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">gps1</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="kd">var</span> <span class="nx">gps2</span> <span class="o">=</span> <span class="nx">list</span><span class="p">[</span><span class="nx">list</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">split</span><span class="p">(</span><span class="dl">'</span><span class="s1">,</span><span class="dl">'</span><span class="p">);</span>
+        <span class="kd">var</span> <span class="nx">endPoint</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Point</span><span class="p">(</span><span class="nx">gps2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">gps2</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+        <span class="nx">map</span><span class="p">.</span><span class="nx">centerAndZoom</span><span class="p">(</span><span class="nx">endPoint</span><span class="p">,</span> <span class="mi">11</span><span class="p">);</span>
+        <span class="c1">// map.clearOverlays();</span>
+
+        <span class="c1">//添加起始图标</span>
+        <span class="kd">var</span> <span class="nx">startPointIcon</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Icon</span><span class="p">(</span><span class="dl">"</span><span class="s2">/assets/start_point.png</span><span class="dl">"</span><span class="p">,</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span> <span class="p">{</span>
+            <span class="na">imageSize</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+            <span class="na">anchor</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+        <span class="p">});</span>
+        
+        <span class="kd">var</span> <span class="nx">bikeMarkerStart</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Marker</span><span class="p">(</span><span class="nx">startPoint</span><span class="p">,</span> <span class="p">{</span> <span class="na">icon</span><span class="p">:</span> <span class="nx">startPointIcon</span> <span class="p">});</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addOverlay</span><span class="p">(</span><span class="nx">bikeMarkerStart</span><span class="p">);</span>
+
+        <span class="kd">var</span> <span class="nx">endPointIcon</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Icon</span><span class="p">(</span><span class="dl">"</span><span class="s2">/assets/end_point.png</span><span class="dl">"</span><span class="p">,</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span> <span class="p">{</span>
+            <span class="na">imageSize</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+            <span class="na">anchor</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+        <span class="p">});</span>
+        <span class="kd">var</span> <span class="nx">bikeMarkerEnd</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Marker</span><span class="p">(</span><span class="nx">endPoint</span><span class="p">,</span> <span class="p">{</span> <span class="na">icon</span><span class="p">:</span> <span class="nx">endPointIcon</span> <span class="p">});</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addOverlay</span><span class="p">(</span><span class="nx">bikeMarkerEnd</span><span class="p">);</span>
+
+        <span class="kd">var</span> <span class="nx">routeList</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="nx">list</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">"</span><span class="s2">,</span><span class="dl">"</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">point</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Point</span><span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="nx">routeList</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">point</span><span class="p">);</span>
+        <span class="p">})</span>
+        <span class="c1">// 行驶路线</span>
+        <span class="kd">var</span> <span class="nx">polyLine</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Polyline</span><span class="p">(</span><span class="nx">routeList</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">strokeColor</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#ef4136</span><span class="dl">"</span><span class="p">,</span>
+            <span class="na">strokeWeight</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="na">strokeOpacity</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">});</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addOverlay</span><span class="p">(</span><span class="nx">polyLine</span><span class="p">);</span>
+
+        <span class="c1">// 服务区路线</span>
+        <span class="kd">var</span> <span class="nx">serviceList</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">service_list</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">servicePointist</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="nx">serviceList</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">point</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Point</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">lon</span><span class="p">,</span> <span class="nx">item</span><span class="p">.</span><span class="nx">lat</span><span class="p">);</span>
+            <span class="nx">servicePointist</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">point</span><span class="p">);</span>
+        <span class="p">})</span>
+        <span class="c1">// 画线</span>
+        <span class="kd">var</span> <span class="nx">polyServiceLine</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Polyline</span><span class="p">(</span><span class="nx">servicePointist</span><span class="p">,</span> <span class="p">{</span>
+            <span class="na">strokeColor</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#ef4136</span><span class="dl">"</span><span class="p">,</span>
+            <span class="na">strokeWeight</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+            <span class="na">strokeOpacity</span><span class="p">:</span> <span class="mi">1</span>
+        <span class="p">});</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addOverlay</span><span class="p">(</span><span class="nx">polyServiceLine</span><span class="p">);</span>
+
+        <span class="c1">// 添加地图中的自行车</span>
+        <span class="kd">var</span> <span class="nx">bikeList</span> <span class="o">=</span> <span class="nx">res</span><span class="p">.</span><span class="nx">bike_list</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">bikeIcon</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Icon</span><span class="p">(</span><span class="dl">"</span><span class="s2">/assets/bike.jpg</span><span class="dl">"</span><span class="p">,</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span> <span class="p">{</span>
+            <span class="na">imageSize</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
+            <span class="na">anchor</span><span class="p">:</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Size</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+        <span class="p">});</span>
+        <span class="nx">bikeList</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="dl">"</span><span class="s2">,</span><span class="dl">"</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">point</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Point</span><span class="p">(</span><span class="nx">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="kd">var</span> <span class="nx">bikeMarker</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">Marker</span><span class="p">(</span><span class="nx">point</span><span class="p">,</span> <span class="p">{</span> <span class="na">icon</span><span class="p">:</span> <span class="nx">bikeIcon</span> <span class="p">});</span>
+            <span class="nx">map</span><span class="p">.</span><span class="nx">addOverlay</span><span class="p">(</span><span class="nx">bikeMarker</span><span class="p">);</span>
+        <span class="p">})</span>
+        
+        <span class="c1">// 添加地图控件</span>
+        <span class="nx">addMapControl</span><span class="p">();</span>
+    <span class="p">};</span>
+
+    <span class="c1">// 添加地图控件</span>
+    <span class="kd">function</span> <span class="nx">addMapControl</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">map</span> <span class="o">=</span> <span class="nx">map</span><span class="p">;</span>
+        <span class="c1">// 左上角，添加比例尺</span>
+        <span class="kd">var</span> <span class="nx">top_right_control</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">ScaleControl</span><span class="p">({</span><span class="na">anchor</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMAP_ANCHOR_TOP_RIGHT</span><span class="p">});</span>
+        <span class="kd">var</span> <span class="nx">top_right_navigation</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMap</span><span class="p">.</span><span class="nx">NavigationControl</span><span class="p">({</span><span class="na">anchor</span><span class="p">:</span> <span class="nb">window</span><span class="p">.</span><span class="nx">BMAP_ANCHOR_TOP_RIGHT</span><span class="p">});</span>
+        <span class="c1">//添加控件和比例尺</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addControl</span><span class="p">(</span><span class="nx">top_right_control</span><span class="p">);</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">addControl</span><span class="p">(</span><span class="nx">top_right_navigation</span><span class="p">);</span>
+        <span class="nx">map</span><span class="p">.</span><span class="nx">enableScrollWheelZoom</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+        <span class="c1">// legend.addLegend(map);</span>
+    <span class="p">};</span>
+</code></pre></div></div>
+
+:ET

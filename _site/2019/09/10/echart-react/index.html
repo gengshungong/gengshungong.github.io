@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>echarts 相关的属性和用法 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2019/09/10/echart-react/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="echarts 相关的属性和用法, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>echarts 相关的属性和用法</h1>
+		    <p>Post on Sep 10, 2019 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#echarts-ref">echarts</a> /
+    <a href="/tag/#echarts-ref">echarts</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">echarts 相关的属性和用法</h1>
+              <!--
+                <p class="post-meta">Sep 10, 2019</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Sep 10, 2019</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <h2 id="柱状图">柱状图</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    public getOption = () =&gt; {
+        return {
+            // 标题
+            title: {
+                text: '任务量',
+                left: 20,
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 14,
+                }
+            },
+            color: '#2979FF',
+            // 浮框
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            grid: {
+                left: '5%',
+                right: '1%',
+                bottom: '10%',
+                top: '14%',
+                containLabel: false
+            },
+            dataZoom: [{
+                type: 'inside',
+                show: true,
+                start: 0,
+                end: 60,
+            }
+            ],
+            xAxis: [
+                {
+                    type: 'category',
+		  boundaryGap: false  //刻度从0开始 true 是不从0开始
+                    max: 20,
+                    data: this.optionData &amp;&amp; this.optionData.map((option: any) =&gt; (
+                        {
+                            value: option.name,
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.5)'
+                            }
+                        }
+                    )),
+                    axisTick: {
+                        show: false,
+                        alignWithLabel: false
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: 'rgba(41, 121, 255, 0.2)'
+                        },
+                    },
+                    boundaryGap: ['5%', 0]
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+			max:2000，
+	splitNumber : 5,   //把y轴分为5段,一般和max，min配合使用
+                    axisLine: {
+                        show: false,
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.5)'
+                        }
+                    },
+                    // 背景线
+                    splitLine: {
+                        lineStyle: {
+                            color: 'rgba(41, 121, 255, 0.2)'
+                        }
+                    },
+                    axisTick: {
+                        show: false,
+                    },
+                }
+            ],
+            series: [
+                {
+                    type: 'bar',
+                    barWidth: '50%',
+                    data: this.optionData &amp;&amp; this.optionData.map((option: any) =&gt; option.count),
+itemStyle: {
+        normal: {
+            color: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,       //4个参数用于配置渐变色的起止位置, 这4个参数依次对应右/下/左/上四个方位. 而0 0 0 1则代表渐变色从正上方开始
+                [
+                    {offset: 0, color: '#000'},
+                    {offset: 0.5, color: '#888'},
+                    {offset: 1, color: '#ddd'}
+                ]                //数组, 用于配置颜色的渐变过程. 每一项为一个对象, 包含offset和color两个参数. offset的范围是0 ~ 1, 用于表示位置
+            )
+        }
+    }        //颜色渐变
+
+                }
+            ]
+        }
+    }
+
+</code></pre></div></div>
+
+<h2 id="饼图">饼图</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  public bigtaskOption = () =&gt; {
+        return {
+            tooltip: {
+                formatter: '{b}'
+            },
+            graphic: {
+                type: 'text',
+                left: 'center',
+                top: 'center',
+                style: {
+                   text: `任务总数\n\r${this.bigtask &amp;&amp; this.bigtask}`,
+                    fontSize: 14,
+                    textAlign: 'center',
+                    fill: '#00DAD8'
+                }
+            },
+            labelLine: {
+                lineStyle: {
+                    color: '#00DAD8',
+                }
+            },
+            series: [
+                {
+                    name: '任务总数',
+                    type: 'pie',
+                    roseType: 'area',
+                    radius: [40, 100],
+                    center: ['50%', '50%'],
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    data: this.tasktypeData.statistics &amp;&amp; this.tasktypeData.statistics.map((item: any) =&gt; (
+                        { value: item.ratio, name: `${item.name}\n\r${Number(item.ratio * 100).toFixed(2)}%` }
+                    )),
+                }
+            ]
+        }
+    }
+</code></pre></div></div>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

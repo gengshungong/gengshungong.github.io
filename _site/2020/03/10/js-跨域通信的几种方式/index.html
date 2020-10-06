@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>js 跨域通信的几种方式 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2020/03/10/js-%E8%B7%A8%E5%9F%9F%E9%80%9A%E4%BF%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="js 跨域通信的几种方式, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>js 跨域通信的几种方式</h1>
+		    <p>Post on Mar 10, 2020 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#-ref"></a> /
+    <a href="/tag/#js-ref">js</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">js 跨域通信的几种方式</h1>
+              <!--
+                <p class="post-meta">Mar 10, 2020</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Mar 10, 2020</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <p><code class="highlighter-rouge">jsonp</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">http://www.abc.com/?data=name&amp;callback=jsonp</span><span class="dl">"</span> <span class="nx">charset</span><span class="o">=</span><span class="dl">"</span><span class="s2">utf-8</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;</span><span class="err"> 
+</span>    <span class="c1">// 通过callback的jsonp函数获取数据</span>
+    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">text/javascript</span><span class="dl">"</span><span class="o">&gt;</span>
+     <span class="kd">function</span> <span class="nx">jsonp</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+     <span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p><code class="highlighter-rouge">hash</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">//场景是当前页面 A 通过iframe或frame嵌入了跨域的页面 B</span>
+      <span class="c1">// 在A中伪代码如下：</span>
+      <span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">'</span><span class="s1">iframe</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">B</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">B</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">#</span><span class="dl">'</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span><span class="p">;</span>
+      <span class="c1">// 在B中的伪代码如下</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">onhashchange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">;</span>
+      <span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">postMessage</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">// 窗口A(http:A.com)向跨域的窗口B(http:B.com)发送信息</span>
+      <span class="nx">Bwindow</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">data</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">http://B.com</span><span class="dl">'</span><span class="p">);</span>
+      <span class="c1">// 在窗口B中监听</span>
+      <span class="nx">Awindow</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">origin</span><span class="p">);</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">WebSocket</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="kd">var</span> <span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="dl">'</span><span class="s1">ws://echo.websocket.org</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connection open ...</span><span class="dl">'</span><span class="p">);</span>
+          <span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello WebSockets!</span><span class="dl">'</span><span class="p">);</span>
+      <span class="p">};</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Received Message: </span><span class="dl">'</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+          <span class="nx">ws</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+      <span class="p">};</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onclose</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connection closed.</span><span class="dl">'</span><span class="p">);</span>
+      <span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">CORS</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">// url（必选），options（可选）</span>
+      <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">/some/url/</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+          <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 出错了，等价于 then 的第二个参数，但这样更好用更直观</span>
+      <span class="p">});</span>
+</code></pre></div></div>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

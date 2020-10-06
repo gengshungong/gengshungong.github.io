@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>echarts 自定义处理 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2019/11/12/echarts-linechose/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="echarts 自定义处理, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>echarts 自定义处理</h1>
+		    <p>Post on Nov 12, 2019 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#echarts-ref">echarts</a> /
+    <a href="/tag/#echarts-ref">echarts</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">echarts 自定义处理</h1>
+              <!--
+                <p class="post-meta">Nov 12, 2019</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Nov 12, 2019</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <h5 id="1首先自定义页面dom结构">1.首先自定义页面dom结构</h5>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="s2">`&lt;div class="select dowebok" id="two"&gt;
+    &lt;span class="placeholder"&gt;请选择&lt;/span&gt;
+    &lt;ul class="area-list"&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;`</span>
+</code></pre></div></div>
+<h5 id="2自定义编写echarts组件">2.自定义编写echarts组件</h5>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">echartsCode</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="c1">// 自定义areaStyle</span>
+  <span class="kd">var</span> <span class="nx">areaStyle</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">linear</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">x2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">colorStops</span><span class="p">:</span> <span class="p">[{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(255,105,61,100)</span><span class="dl">'</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(255,105,61,0)</span><span class="dl">'</span> <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">linear</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">x2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">colorStops</span><span class="p">:</span> <span class="p">[{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(230,149,43,100)</span><span class="dl">'</span> <span class="p">},</span> <span class="p">{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(230,149,43,100)</span><span class="dl">'</span> <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">linear</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">x2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">colorStops</span><span class="p">:</span> <span class="p">[{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(83,204,250,100)</span><span class="dl">'</span> <span class="p">},</span> <span class="p">{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">rgba(83,204,250,0)</span><span class="dl">'</span> <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+    <span class="p">},</span>
+  <span class="p">],</span>
+
+
+  <span class="c1">// 定义option</span>
+  <span class="nx">option</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">tooltip</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">trigger</span><span class="p">:</span> <span class="dl">'</span><span class="s1">axis</span><span class="dl">'</span>
+    <span class="p">},</span>
+    <span class="na">color</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">rgba(255,105,61,96)</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">rgba(230,149,43,100)</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">rgba(83,204,250,100)</span><span class="dl">'</span><span class="p">],</span>
+    <span class="na">legend</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="c1">//selectedMode: 'single',</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">scroll</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">left</span><span class="p">:</span> <span class="dl">'</span><span class="s1">150px</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">top</span><span class="p">:</span> <span class="dl">'</span><span class="s1">8px</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">textStyle</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#fff</span><span class="dl">'</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">grid</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">left</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3%</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">right</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4%</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">bottom</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0%</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">containLabel</span><span class="p">:</span> <span class="kc">true</span>
+    <span class="p">},</span>
+
+    <span class="na">xAxis</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">category</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">boundaryGap</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="na">axisLabel</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#fff</span><span class="dl">'</span>
+      <span class="p">},</span>
+      <span class="na">data</span><span class="p">:</span> <span class="nx">chart</span><span class="p">.</span><span class="nx">views</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">data</span><span class="p">.</span><span class="nx">x</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">data</span><span class="p">,</span>
+      <span class="na">splitLine</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#ccc</span><span class="dl">'</span><span class="p">,</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">yAxis</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">value</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">axisLabel</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#fff</span><span class="dl">'</span>
+      <span class="p">},</span>
+      <span class="na">splitLine</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#ccc</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">series</span><span class="p">:</span> <span class="p">[]</span>
+  <span class="p">};</span>
+  <span class="kd">var</span> <span class="nx">_yData</span> <span class="o">=</span> <span class="nx">chart</span><span class="p">.</span><span class="nx">views</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">data</span><span class="p">.</span><span class="nx">y</span>
+  <span class="kd">var</span> <span class="nx">_yData1</span> <span class="o">=</span> <span class="nx">chart</span><span class="p">.</span><span class="nx">views</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">data</span><span class="p">.</span><span class="nx">y</span>
+  <span class="kd">var</span> <span class="nx">listHtml</span> <span class="o">=</span> <span class="dl">''</span>
+  <span class="kd">var</span> <span class="nx">tempArr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="kd">var</span> <span class="nx">liIndex</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">of</span> <span class="nx">_yData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">tempArr</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="p">{</span>
+      <span class="nx">liIndex</span><span class="o">++</span>
+      <span class="nx">tempArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+      <span class="nx">listHtml</span> <span class="o">+=</span> <span class="s2">`&lt;li data-index = '</span><span class="p">${</span><span class="nx">liIndex</span><span class="p">}</span><span class="s2">'&gt;</span><span class="p">${</span><span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span><span class="s2">&lt;/li&gt;`</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.area-list</span><span class="dl">'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">listHtml</span><span class="p">)</span>
+
+
+<span class="c1">// 相关自定义操作</span>
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.select</span><span class="dl">'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">.placeholder</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">parent</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="dl">'</span><span class="s1">.select</span><span class="dl">'</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">parent</span><span class="p">.</span><span class="nx">hasClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">parent</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.select.is-open</span><span class="dl">'</span><span class="p">).</span><span class="nx">not</span><span class="p">(</span><span class="nx">parent</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">parent</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">();</span>
+  <span class="p">}).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">ul&gt;li</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//console.log(_yData1[0].data[this.getAttribute('data-index')])</span>
+    <span class="nx">option</span><span class="p">.</span><span class="nx">series</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="nx">option</span><span class="p">.</span><span class="nx">legend</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kd">var</span> <span class="nx">parent</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">closest</span><span class="p">(</span><span class="dl">'</span><span class="s1">.select</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">parent</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="dl">'</span><span class="s1">.placeholder</span><span class="dl">'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">text</span><span class="p">());</span>
+    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">text</span><span class="p">()</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">内部核心圈</span><span class="dl">'</span> <span class="p">?</span> <span class="mi">0</span> <span class="p">:</span> <span class="mi">1</span>
+
+
+<span class="c1">// 自定义series</span>
+    <span class="nx">option</span><span class="p">.</span><span class="nx">series</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">_yData</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span><span class="p">,</span> <span class="na">markLine</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">silent</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">label</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">position</span><span class="p">:</span> <span class="dl">'</span><span class="s1">middle</span><span class="dl">'</span>
+        <span class="p">},</span>
+        <span class="na">markPoint</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">max</span><span class="dl">'</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">data</span><span class="p">[</span><span class="nb">parseInt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">data-index</span><span class="dl">'</span><span class="p">))],</span><span class="c1">//黄色警告值,注意下面还有个黄色值需要改</span>
+            <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+              <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#e6a953</span><span class="dl">"</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">data</span><span class="p">[</span><span class="nb">parseInt</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">data-index</span><span class="dl">'</span><span class="p">))],</span><span class="c1">//红色报警值，注意下面还有个红色值需要改</span>
+            <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+              <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">red</span><span class="dl">"</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">none</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1">//color:'#4eb9ff',</span>
+        <span class="na">width</span><span class="p">:</span> <span class="mi">2</span>
+      <span class="p">},</span>
+      <span class="na">smooth</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="nx">_yData</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">data</span><span class="p">,</span>
+      <span class="na">areaStyle</span><span class="p">:</span> <span class="nx">areaStyle</span><span class="p">[</span><span class="nx">index</span> <span class="o">%</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="p">})</span>
+    <span class="nx">option</span><span class="p">.</span><span class="nx">legend</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="na">name</span><span class="p">:</span> <span class="nx">_yData</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+      <span class="na">icon</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="nx">option</span><span class="p">.</span><span class="nx">series</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+      <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">预测值</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">data</span><span class="p">:</span> <span class="nx">_yData2</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">data</span><span class="p">,</span>
+      <span class="na">markLine</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">silent</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">label</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">position</span><span class="p">:</span> <span class="dl">'</span><span class="s1">middle</span><span class="dl">'</span>
+        <span class="p">},</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span><span class="c1">//黄色警告值</span>
+            <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+              <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#e6a953</span><span class="dl">"</span>
+            <span class="p">}</span>
+          <span class="p">},</span>
+          <span class="p">{</span>
+            <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="nx">index</span><span class="p">],</span><span class="c1">//红色报警值</span>
+            <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+              <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#f65f2c</span><span class="dl">"</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="na">markPoint</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">max</span><span class="dl">'</span><span class="p">,</span>
+
+          <span class="p">},</span>
+        <span class="p">],</span>
+        <span class="na">itemStyle</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+      <span class="na">areaStyle</span><span class="p">:</span>
+      <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">linear</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="na">x2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+          <span class="na">y2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="na">colorStops</span><span class="p">:</span> <span class="p">[{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span> <span class="p">},</span> <span class="p">{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#fff</span><span class="dl">'</span> <span class="p">}]</span>
+        <span class="p">},</span>
+        <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+      <span class="p">},</span>
+      <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">none</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">width</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">dotted</span><span class="dl">"</span>
+      <span class="p">},</span>
+      <span class="na">smooth</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="nx">myChart</span><span class="p">.</span><span class="nx">setOption</span><span class="p">(</span><span class="nx">option</span><span class="p">);</span>
+  <span class="p">});</span>
+
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">body</span><span class="dl">'</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">'</span><span class="s1">click</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.select.is-open</span><span class="dl">'</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="dl">'</span><span class="s1">is-open</span><span class="dl">'</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="nx">$</span><span class="p">(</span><span class="dl">'</span><span class="s1">.placeholder</span><span class="dl">'</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">_yData</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="kd">var</span> <span class="nx">_y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="k">of</span> <span class="nx">_yData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">_y</span><span class="o">++</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nx">_yData</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+      <span class="nx">option</span><span class="p">.</span><span class="nx">series</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+        <span class="na">name</span><span class="p">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">data</span><span class="p">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span>
+        <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">none</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">smooth</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+          <span class="c1">//color:'#4eb9ff',</span>
+          <span class="na">width</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">},</span>
+        <span class="na">markLine</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">silent</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="na">label</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">position</span><span class="p">:</span> <span class="dl">'</span><span class="s1">middle</span><span class="dl">'</span>
+          <span class="p">},</span>
+          <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="c1">//黄色警告值</span>
+              <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#e6a953</span><span class="dl">"</span>
+              <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+              <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="c1">//红色报警值</span>
+              <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+                <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#f65f2c</span><span class="dl">"</span>
+              <span class="p">}</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="na">markPoint</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+              <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">max</span><span class="dl">'</span>
+            <span class="p">}</span>
+          <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="na">areaStyle</span><span class="p">:</span> <span class="nx">areaStyle</span><span class="p">[</span><span class="nx">_y</span> <span class="o">%</span> <span class="mi">3</span><span class="p">]</span>
+      <span class="p">})</span>
+      <span class="nx">option</span><span class="p">.</span><span class="nx">legend</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+        <span class="na">name</span><span class="p">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">compare_names</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="na">icon</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+
+<span class="c1">// 第二部分</span>
+  <span class="kd">var</span> <span class="nx">_y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="kd">var</span> <span class="nx">_yData2</span> <span class="o">=</span> <span class="nx">chart</span><span class="p">.</span><span class="nx">views</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nx">data</span><span class="p">.</span><span class="nx">y</span>
+  <span class="nx">option</span><span class="p">.</span><span class="nx">series</span><span class="p">.</span><span class="nx">push</span><span class="p">({}</span>
+    <span class="nl">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">预测值</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">data</span><span class="p">:</span> <span class="nx">_yData2</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">data</span><span class="p">,</span>
+    <span class="na">markLine</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">silent</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">label</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">position</span><span class="p">:</span> <span class="dl">'</span><span class="s1">middle</span><span class="dl">'</span>
+      <span class="p">},</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="c1">//黄色警告值</span>
+          <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#e6a953</span><span class="dl">"</span>
+          <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="na">yAxis</span><span class="p">:</span> <span class="nx">_yData1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="c1">//红色报警值</span>
+          <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#f65f2c</span><span class="dl">"</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="na">markPoint</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">data</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">max</span><span class="dl">'</span><span class="p">,</span>
+
+        <span class="p">},</span>
+
+      <span class="p">],</span>
+      <span class="na">itemStyle</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="na">areaStyle</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">linear</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">x</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">x2</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="na">y2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">colorStops</span><span class="p">:</span> <span class="p">[{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span> <span class="p">},</span> <span class="p">{</span> <span class="na">offset</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#fff</span><span class="dl">'</span> <span class="p">}]</span>
+      <span class="p">},</span>
+      <span class="na">opacity</span><span class="p">:</span> <span class="mf">0.1</span>
+    <span class="p">},</span>
+
+    <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">none</span><span class="dl">'</span><span class="p">,</span>
+
+    <span class="na">lineStyle</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">gray</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">width</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+      <span class="na">type</span><span class="p">:</span> <span class="dl">"</span><span class="s2">dotted</span><span class="dl">"</span>
+    <span class="p">},</span>
+    <span class="na">smooth</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="p">})</span>
+
+  <span class="c1">// 自定义legend</span>
+  <span class="nx">option</span><span class="p">.</span><span class="nx">legend</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="nx">i</span><span class="p">.</span><span class="nx">nick_name</span><span class="p">,</span>
+    <span class="na">icon</span><span class="p">:</span> <span class="dl">'</span><span class="s1">line</span><span class="dl">'</span>
+  <span class="p">})</span>
+  <span class="c1">// 粘贴代码结束</span>
+  <span class="k">return</span> <span class="nx">option</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="此代码仅供借鉴学习"><code class="highlighter-rouge">此代码仅供借鉴学习</code></h4>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

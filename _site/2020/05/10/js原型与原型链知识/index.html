@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>js原型链 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2020/05/10/js%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%9F%A5%E8%AF%86/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="js原型链, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>js原型链</h1>
+		    <p>Post on May 10, 2020 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#-ref"></a> /
+    <a href="/tag/#js-ref">js</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">js原型链</h1>
+              <!--
+                <p class="post-meta">May 10, 2020</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">May 10, 2020</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <h5 id="原型链">原型链</h5>
+<blockquote>
+  <p>在任意对象和Object.prototype之间，存在着一条以非标准属性__proto__进行连接的链，那我们管这条链叫做<code class="highlighter-rouge">原型链</code></p>
+</blockquote>
+
+<p><code class="highlighter-rouge">原型</code>每个函数都有一个prototype属性,这个属性指向的就是原型对象. 实例有一个__proto__指向它构造函数的原型对象. <br /></p>
+
+<p><code class="highlighter-rouge">原型链</code>当调用一个对象的属性时，如果自身对象未找到，便会去对象的__proto__属性去查找，找到原型，原型也拥有__proto__属性，所以对继续向上查找，一直找到Object.prototype.<strong>proto</strong> === null 
+<br /> 
+<code class="highlighter-rouge">特点</code>原型对象上的方法是被不同实例共有的, 当我们修改原型时，与之相关的对象也会继承这一改变。</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">// 第一种方式：字面量</span>
+      <span class="kd">var</span> <span class="nx">o1</span> <span class="o">=</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">o1</span><span class="dl">'</span><span class="p">};</span>
+      <span class="kd">var</span> <span class="nx">o2</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">({</span><span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">o2</span><span class="dl">'</span><span class="p">});</span>
+      <span class="c1">// 第二种方式：构造函数</span>
+      <span class="kd">var</span> <span class="nx">M</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span> <span class="p">};</span>
+      <span class="kd">var</span> <span class="nx">o3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">M</span><span class="p">(</span><span class="dl">'</span><span class="s1">o3</span><span class="dl">'</span><span class="p">);</span>
+      <span class="c1">// 第三种方式：Object.create</span>
+      <span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span><span class="dl">'</span><span class="s1">p</span><span class="dl">'</span><span class="p">}</span>
+      <span class="kd">var</span> <span class="nx">o4</span> <span class="o">=</span> <span class="nx">object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+
+      <span class="c1">// new 运算符的工作原理</span>
+      <span class="kd">var</span> <span class="nx">new1</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">func</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">o</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">func</span><span class="p">.</span><span class="nx">prototype</span><span class="p">)</span>
+        <span class="kd">var</span> <span class="nx">k</span> <span class="o">=</span> <span class="nx">func</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">o</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="k">typeof</span> <span class="nx">k</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">object</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">k</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="nx">o</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+</code></pre></div></div>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

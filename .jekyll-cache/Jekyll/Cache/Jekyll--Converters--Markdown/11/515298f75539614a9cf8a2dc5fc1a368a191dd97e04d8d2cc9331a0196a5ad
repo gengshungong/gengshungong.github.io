@@ -1,0 +1,693 @@
+I"�<ul>
+  <li>注册的路由</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/register</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 读取请求参数数据</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="c1">// 处理: 判断用户是否已经存在, 如果存在, 返回提示错误的信息, 如果不存在, 保存</span>
+  <span class="c1">// 查询(根据username)</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 如果user有值(已存在)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// 返回提示错误的信息</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">此用户已存在</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// 没值(不存在)</span>
+      <span class="c1">// 保存</span>
+      <span class="k">new</span> <span class="nx">UserModel</span><span class="p">({</span>
+        <span class="nx">username</span><span class="p">,</span>
+        <span class="na">password</span><span class="p">:</span> <span class="nx">md5</span><span class="p">(</span><span class="nx">password</span><span class="p">),</span>
+        <span class="na">nickname</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">valueOf</span><span class="p">(),</span>
+        <span class="na">signature</span><span class="p">:</span> <span class="dl">'</span><span class="s1">暂无签名</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">avatar</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/touxiang/touxiang.jpg</span><span class="dl">'</span>
+      <span class="p">}).</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 生成一个cookie(userid: user._id), 并交给浏览器保存</span>
+        <span class="c1">// res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 })</span>
+        <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span>
+        <span class="c1">// 返回包含user的json数据</span>
+        <span class="c1">// const data = { username, _id: user._id } // 响应数据中不要携带password</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">恭喜你,注册成功！</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>检测登录状态</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/isLogin</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">userid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">亲爱的游客,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="c1">// 查询</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="nx">filter</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 如果没有, 返回错误提示</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// 清除浏览器保存的userid</span>
+      <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">亲爱的游客,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// 如果有, 返回user</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">已登录</span><span class="dl">'</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">user</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>登录的路由</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/login</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">password</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="nx">username</span><span class="p">,</span> <span class="na">password</span><span class="p">:</span> <span class="nx">md5</span><span class="p">(</span><span class="nx">password</span><span class="p">)</span> <span class="p">},</span> <span class="nx">filter</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span>
+    <span class="nx">err</span><span class="p">,</span>
+    <span class="nx">user</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//登录成功</span>
+      <span class="c1">// res.cookie('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 * 7 })</span>
+      <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">恭喜你,登录成功!</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">//登录失败</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">用户名或密码不正确</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>上传头像</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/avatar</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">//上传文件只能通过这个插件接收  file是上传文件 fields是其他的</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">userDirPath</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="nx">userDirPath</span><span class="p">)</span> <span class="c1">//创建目录</span>
+  <span class="p">}</span>
+  <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">formidable</span><span class="p">.</span><span class="nx">IncomingForm</span><span class="p">()</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">encoding</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span> <span class="c1">//设置编辑</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">uploadDir</span> <span class="o">=</span> <span class="nx">userDirPath</span> <span class="c1">//设置上传目录</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">keepExtensions</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">//保留后缀</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">maxFieldsSize</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="c1">//文件大小</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="kc">true</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">fields</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">files</span><span class="p">).</span><span class="nx">length</span> <span class="o">!==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">oldname</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span>
+      <span class="kd">var</span> <span class="nx">newname</span> <span class="o">=</span> <span class="nx">userDirPath</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span> <span class="o">+</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">.jpg</span><span class="dl">'</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">rename</span><span class="p">(</span><span class="nx">oldname</span><span class="p">,</span> <span class="nx">newname</span><span class="p">,</span> <span class="nx">err</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">上传失败</span><span class="dl">'</span> <span class="p">})</span>
+          <span class="k">return</span>
+        <span class="p">}</span>
+        <span class="kd">var</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+        <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+          <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span>
+          <span class="p">{</span> <span class="na">avatar</span><span class="p">:</span> <span class="nx">newname</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">},</span>
+          <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">oldUser</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">oldUser</span><span class="p">)</span> <span class="p">{</span>
+              <span class="c1">// 通知浏览器删除userid cookie</span>
+              <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+              <span class="c1">// 返回返回一个提示信息</span>
+              <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">保存失败,登录已过期,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+              <span class="c1">//上传成功，返回文件的相对路径</span>
+              <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">头像上传成功!</span><span class="dl">'</span> <span class="p">})</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">)</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>保存个人资料</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/saveinfo</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// 从请求的session得到userid</span>
+  <span class="kd">var</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="c1">// 如果不存在, 直接返回一个提示信息</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">userid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">登录已过期,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="c1">// 存在, 根据userid更新对应的user文档数据</span>
+  <span class="c1">// 得到提交的用户数据</span>
+  <span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span> <span class="c1">// 没有_id</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="nx">user</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">oldUser</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">oldUser</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// 通知浏览器删除userid</span>
+      <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+      <span class="c1">// 返回返回一个提示信息</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">保存失败,登录已过期,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="c1">// 返回</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">保存成功</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>获取用户资料信息</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/userinfo</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 从请求的cookie得到userid</span>
+  <span class="kd">var</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="c1">// 如果不存在, 直接返回一个提示信息</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">userid</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">亲爱的游客,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="c1">// 根据userid查询对应的user</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="nx">filter</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">user</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">登录已过期,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>发贴</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/artical</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">articalDirPath</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">mkdirSync</span><span class="p">(</span><span class="nx">articalDirPath</span><span class="p">)</span> <span class="c1">//创建目录</span>
+  <span class="p">}</span>
+  <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">formidable</span><span class="p">.</span><span class="nx">IncomingForm</span><span class="p">()</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">encoding</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">utf-8</span><span class="dl">'</span> <span class="c1">//设置编辑</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">uploadDir</span> <span class="o">=</span> <span class="nx">articalDirPath</span> <span class="c1">//设置上传目录</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">keepExtensions</span> <span class="o">=</span> <span class="kc">true</span> <span class="c1">//保留后缀</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">maxFieldsSize</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="c1">//文件大小</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">multiples</span> <span class="o">=</span> <span class="kc">true</span>
+  <span class="nx">form</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">fields</span><span class="p">,</span> <span class="nx">files</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">上传失败</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="k">return</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">filesUrl</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">files</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">files</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">key</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">filePath</span> <span class="o">=</span> <span class="nx">key</span><span class="p">.</span><span class="nx">path</span>
+          <span class="kd">var</span> <span class="nx">fileExt</span> <span class="o">=</span> <span class="nx">filePath</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="nx">filePath</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">))</span>
+          <span class="c1">//以当前时间戳对上传文件进行重命名</span>
+          <span class="kd">var</span> <span class="nx">fileName</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="nx">index</span> <span class="o">+</span> <span class="nx">fileExt</span>
+          <span class="kd">var</span> <span class="nx">targetFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">articalDirPath</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">)</span>
+          <span class="c1">//移动文件</span>
+          <span class="nx">fs</span><span class="p">.</span><span class="nx">renameSync</span><span class="p">(</span><span class="nx">filePath</span><span class="p">,</span> <span class="nx">targetFile</span><span class="p">)</span>
+          <span class="c1">// 文件的Url（相对路径）</span>
+          <span class="nx">filesUrl</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">/artical/</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">fileName</span><span class="p">)</span>
+        <span class="p">})</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">filePath</span> <span class="o">=</span> <span class="nx">files</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span>
+        <span class="kd">var</span> <span class="nx">fileExt</span> <span class="o">=</span> <span class="nx">filePath</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="nx">filePath</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="dl">'</span><span class="s1">.</span><span class="dl">'</span><span class="p">))</span>
+        <span class="c1">//以当前时间戳对上传文件进行重命名</span>
+        <span class="kd">var</span> <span class="nx">fileName</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span> <span class="o">+</span> <span class="nx">fileExt</span>
+        <span class="kd">var</span> <span class="nx">targetFile</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">articalDirPath</span><span class="p">,</span> <span class="nx">fileName</span><span class="p">)</span>
+        <span class="c1">//移动文件</span>
+        <span class="nx">fs</span><span class="p">.</span><span class="nx">renameSync</span><span class="p">(</span><span class="nx">filePath</span><span class="p">,</span> <span class="nx">targetFile</span><span class="p">)</span>
+        <span class="c1">// 文件的Url（相对路径）</span>
+        <span class="nx">filesUrl</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="dl">'</span><span class="s1">/artical/</span><span class="dl">'</span> <span class="o">+</span> <span class="nx">fileName</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+    <span class="c1">// 如果不存在, 直接返回一个提示信息</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">userid</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">亲爱的游客,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="nx">filter</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">new</span> <span class="nx">ArticalModel</span><span class="p">({</span>
+          <span class="na">cid</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span><span class="p">,</span>
+          <span class="na">author</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">nickname</span><span class="p">,</span>
+          <span class="na">content</span><span class="p">:</span> <span class="nx">fields</span><span class="p">.</span><span class="nx">info</span><span class="p">,</span>
+          <span class="na">avatar</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">avatar</span><span class="p">,</span>
+          <span class="na">imagefile</span><span class="p">:</span> <span class="nx">filesUrl</span><span class="p">,</span>
+          <span class="na">date</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">()</span>
+        <span class="p">}).</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">发布成功!</span><span class="dl">'</span> <span class="p">})</span>
+        <span class="p">})</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">登录已过期,请您先登陆</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>点赞</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/praise</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">commentid</span><span class="p">,</span> <span class="nx">userid</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">commentid</span><span class="p">)</span>
+  <span class="c1">// const userId = mongoose.Types.ObjectId(userid)</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">commentId</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">$addToSet</span><span class="p">:</span> <span class="p">{</span> <span class="na">praise</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">点赞成功!</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>取消点赞</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/nopraise</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">commentid</span><span class="p">,</span> <span class="nx">userid</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">commentid</span><span class="p">)</span>
+  <span class="c1">// const userId = mongoose.Types.ObjectId(userid)</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">commentId</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">$pull</span><span class="p">:</span> <span class="p">{</span> <span class="na">praise</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">取消成功!</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>评论点赞</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/commentPraise</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">commentid</span><span class="p">,</span> <span class="nx">userid</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">commentid</span><span class="p">)</span>
+  <span class="c1">// const userId = mongoose.Types.ObjectId(userid)</span>
+  <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">commentId</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">$addToSet</span><span class="p">:</span> <span class="p">{</span> <span class="na">praise</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">点赞成功!</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>取消评论点赞</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/noCommentPraise</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">commentid</span><span class="p">,</span> <span class="nx">userid</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">commentid</span><span class="p">)</span>
+  <span class="c1">// const userId = mongoose.Types.ObjectId(userid)</span>
+  <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">commentId</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">$pull</span><span class="p">:</span> <span class="p">{</span> <span class="na">praise</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">取消成功!</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>帖子信息</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/articalinfo</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="c1">// 如果不存在, 直接返回一个提示信息</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span>
+        <span class="p">{</span> <span class="na">cid</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">author</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">nickname</span><span class="p">,</span> <span class="na">avatar</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">avatar</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">multi</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">raw</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">err</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">raw</span><span class="dl">'</span><span class="p">,</span> <span class="nx">raw</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+  <span class="c1">// 如果不存在, 直接返回一个提示信息</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">find</span><span class="p">({})</span>
+    <span class="p">.</span><span class="nx">sort</span><span class="p">({</span> <span class="na">date</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">})</span>
+    <span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">articalinfo</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">articalinfo</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">data</span> <span class="p">})</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>搜索帖子</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/search/articalinfo</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">search</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">search</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">articalinfo</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">articalinfo</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">item</span><span class="p">.</span><span class="nx">content</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">search</span><span class="p">)</span> <span class="o">!==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">data</span> <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>评论区信息</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/comment_page</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">id</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">id</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">error</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">artical</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>评论</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/comment</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">comment</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">articalId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">comment</span><span class="p">.</span><span class="nx">articalId</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">new</span> <span class="nx">CommentSchema</span><span class="p">({</span>
+        <span class="na">avatar</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">avatar</span><span class="p">,</span>
+        <span class="na">author</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">nickname</span><span class="p">,</span>
+        <span class="na">userid</span><span class="p">:</span> <span class="nx">userid</span><span class="p">,</span>
+        <span class="na">createTime</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">(),</span>
+        <span class="na">content</span><span class="p">:</span> <span class="nx">comment</span><span class="p">.</span><span class="nx">comment</span><span class="p">,</span>
+        <span class="na">commentid</span><span class="p">:</span> <span class="nx">articalId</span>
+      <span class="p">}).</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">commentinfo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">commentinfo</span><span class="dl">'</span><span class="p">,</span> <span class="nx">commentinfo</span><span class="p">)</span>
+        <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span>
+          <span class="p">{</span> <span class="na">commentid</span><span class="p">:</span> <span class="nx">commentinfo</span><span class="p">.</span><span class="nx">commentid</span> <span class="p">},</span>
+          <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">comment</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">comment</span><span class="p">)</span> <span class="p">{</span>
+              <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">findByIdAndUpdate</span><span class="p">(</span>
+                <span class="p">{</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">commentinfo</span><span class="p">.</span><span class="nx">commentid</span> <span class="p">},</span>
+                <span class="p">{</span> <span class="na">commentNumber</span><span class="p">:</span> <span class="nx">comment</span><span class="p">.</span><span class="nx">length</span> <span class="p">},</span>
+                <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">oldArtical</span><span class="p">)</span> <span class="p">{</span>
+                  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">oldArtical</span><span class="dl">'</span><span class="p">,</span> <span class="nx">oldArtical</span><span class="p">)</span>
+                <span class="p">}</span>
+              <span class="p">)</span>
+            <span class="p">}</span>
+          <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">评论成功!</span><span class="dl">'</span> <span class="p">})</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>回显评论</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/comment_info</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span>
+        <span class="p">{</span> <span class="na">userid</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">_id</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">author</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">nickname</span><span class="p">,</span> <span class="na">avatar</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">avatar</span> <span class="p">},</span>
+        <span class="p">{</span> <span class="na">multi</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+        <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">raw</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">err</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">raw</span><span class="dl">'</span><span class="p">,</span> <span class="nx">raw</span><span class="p">)</span>
+        <span class="p">}</span>
+      <span class="p">)</span>
+    <span class="p">}</span>
+    <span class="kd">const</span> <span class="nx">articalId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">articalid</span><span class="p">)</span>
+    <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">commentid</span><span class="p">:</span> <span class="nx">articalId</span> <span class="p">})</span>
+      <span class="p">.</span><span class="nx">sort</span><span class="p">({</span> <span class="na">createTime</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">})</span>
+      <span class="p">.</span><span class="nx">exec</span><span class="p">((</span><span class="nx">error</span><span class="p">,</span> <span class="nx">comment</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">comment</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">comment</span>
+          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">data</span> <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>回复</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/replay</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">replay</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">replay</span><span class="p">.</span><span class="nx">commentId</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">UserModel</span><span class="p">.</span><span class="nx">findOne</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">new</span> <span class="nx">ReplaySchema</span><span class="p">({</span>
+        <span class="na">author</span><span class="p">:</span> <span class="nx">user</span><span class="p">.</span><span class="nx">nickname</span><span class="p">,</span>
+        <span class="na">createTime</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">(),</span>
+        <span class="na">content</span><span class="p">:</span> <span class="nx">replay</span><span class="p">.</span><span class="nx">comment</span><span class="p">,</span>
+        <span class="na">replayid</span><span class="p">:</span> <span class="nx">commentId</span>
+      <span class="p">}).</span><span class="nx">save</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">commentinfo</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">commentinfo</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">回复成功!</span><span class="dl">'</span> <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>回显评论</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/replay_info</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">commentId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">commentid</span><span class="p">)</span>
+  <span class="nx">ReplaySchema</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">replayid</span><span class="p">:</span> <span class="nx">commentId</span> <span class="p">})</span>
+    <span class="p">.</span><span class="nx">sort</span><span class="p">({</span> <span class="na">createTime</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span> <span class="p">})</span>
+    <span class="p">.</span><span class="nx">exec</span><span class="p">((</span><span class="nx">error</span><span class="p">,</span> <span class="nx">replay</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">replay</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">replay</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>我赞过的</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/praising</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">praise</span><span class="p">:</span> <span class="p">{</span> <span class="na">$elemMatch</span><span class="p">:</span> <span class="p">{</span> <span class="na">$eq</span><span class="p">:</span> <span class="nx">userId</span> <span class="p">}</span> <span class="p">}</span> <span class="p">},</span>
+    <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">artical</span> <span class="p">})</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>我评论过的</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/havecomment</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="kd">const</span> <span class="nx">articalid</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="nx">CommentSchema</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">userid</span><span class="p">:</span> <span class="nx">userId</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">comment</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">comment</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">comment</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">articalid</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">commentid</span><span class="p">)</span>
+      <span class="p">})</span>
+      <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="p">{</span> <span class="na">$in</span><span class="p">:</span> <span class="nx">articalid</span> <span class="p">}</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">list</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">list</span> <span class="p">})</span>
+        <span class="p">}</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>我的帖子</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/sendcomment</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userId</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">cid</span><span class="p">:</span> <span class="nx">userId</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">artical</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">artical</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">artical</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>删除我的帖子</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/deletmycomment</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">commentIdArr</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">idArr</span> <span class="o">=</span> <span class="nx">commentIdArr</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">item</span> <span class="o">=&gt;</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">item</span><span class="p">))</span>
+  <span class="nx">ArticalModel</span><span class="p">.</span><span class="nx">deleteMany</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="p">{</span> <span class="na">$in</span><span class="p">:</span> <span class="nx">idArr</span> <span class="p">}</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">orderInfo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">orderInfo</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">删除成功</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>生成订单</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/order</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">order</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="k">new</span> <span class="nx">OrderSchema</span><span class="p">({</span>
+    <span class="na">ordername</span><span class="p">:</span> <span class="nx">order</span><span class="p">.</span><span class="nx">ordername</span><span class="p">,</span>
+    <span class="na">createTime</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">().</span><span class="nx">getTime</span><span class="p">(),</span>
+    <span class="na">price</span><span class="p">:</span> <span class="nx">order</span><span class="p">.</span><span class="nx">price</span><span class="p">,</span>
+    <span class="na">number</span><span class="p">:</span> <span class="nx">order</span><span class="p">.</span><span class="nx">num</span><span class="p">,</span>
+    <span class="na">orderimg</span><span class="p">:</span> <span class="nx">order</span><span class="p">.</span><span class="nx">orderimg</span><span class="p">,</span>
+    <span class="na">orderid</span><span class="p">:</span> <span class="nx">userid</span><span class="p">,</span>
+    <span class="na">state</span><span class="p">:</span> <span class="nx">order</span><span class="p">.</span><span class="nx">state</span>
+  <span class="p">}).</span><span class="nx">save</span><span class="p">((</span><span class="nx">error</span><span class="p">,</span> <span class="nx">orderInfo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">orderInfo</span><span class="p">.</span><span class="nx">state</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">待支付</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">已支付</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>查看所有订单</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/orderinfo</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">userid</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="nx">OrderSchema</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span> <span class="na">orderid</span><span class="p">:</span> <span class="nx">userid</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">orderInfo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">orderInfo</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">orderInfo</span><span class="dl">'</span><span class="p">,</span> <span class="nx">orderInfo</span><span class="p">)</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">orderInfo</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>删除订单</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/deleteorder</span><span class="dl">'</span><span class="p">,</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">orderIdObj</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span>
+  <span class="kd">const</span> <span class="nx">orderId</span> <span class="o">=</span> <span class="nx">mongoose</span><span class="p">.</span><span class="nx">Types</span><span class="p">.</span><span class="nx">ObjectId</span><span class="p">(</span><span class="nx">orderIdObj</span><span class="p">.</span><span class="nx">orderid</span><span class="p">)</span>
+  <span class="nx">OrderSchema</span><span class="p">.</span><span class="nx">remove</span><span class="p">({</span> <span class="na">_id</span><span class="p">:</span> <span class="nx">orderId</span> <span class="p">},</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">orderInfo</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">orderInfo</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">删除成功</span><span class="dl">'</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>退出登录</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/loginout</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// 清除浏览器保存的userid的cookie</span>
+  <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">session</span><span class="p">.</span><span class="nx">userid</span>
+  <span class="c1">// 返回数据</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">msg</span><span class="p">:</span> <span class="dl">'</span><span class="s1">您已经成功退出登录!</span><span class="dl">'</span> <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>随机获取 casoursel</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/carousel/img</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../data/carousel.json</span><span class="dl">'</span><span class="p">)</span>
+  <span class="kd">let</span> <span class="nx">carousel</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="kd">let</span> <span class="nx">indexArr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">index</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">carousel</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">indexArr</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">carousel</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="nx">index</span><span class="p">])</span>
+        <span class="nx">indexArr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">carousel</span> <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>获取 hot_spots 数据</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/hotspots</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../data/hot_spots.json</span><span class="dl">'</span><span class="p">)</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">data</span> <span class="p">})</span>
+  <span class="p">},</span> <span class="mi">300</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<ul>
+  <li>获取 hot_spots 详情数据</li>
+</ul>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">router</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/hotspots/detail</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">name</span>
+  <span class="kd">const</span> <span class="nx">id</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>
+  <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">spotsData</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">../data/hot_spots.json</span><span class="dl">'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">data</span> <span class="k">of</span> <span class="nx">spotsData</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">name</span> <span class="o">===</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">address</span> <span class="k">of</span> <span class="nx">data</span><span class="p">.</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">address</span><span class="p">.</span><span class="nx">id</span> <span class="o">===</span> <span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">res</span><span class="p">.</span><span class="nx">send</span><span class="p">({</span> <span class="na">code</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">data</span><span class="p">:</span> <span class="nx">address</span> <span class="p">})</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="mi">300</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre></div></div>
+:ET

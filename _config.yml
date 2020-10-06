@@ -1,0 +1,26 @@
+# Site settings
+name: Tffeb
+email: 1106389236@qq.com
+author: Tffeb
+url: http://www.hifreud.com
+resume_site: https://github.com/Tffeb/
+github: https://github.com/Tffeb/
+baseurl: ""
+description: codding!
+meta_description: 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;
+motto: write less do more.
+banner: 做好自己喜欢的每一件事。
+
+#permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
+paginate: 10
+
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+
+github_username: Tffeb
+
+# Build settings
+# markdown: kramdown
+
+baidu_analysis: 49a7cfa6b548ec9bf285a5c8d1684b1f
+

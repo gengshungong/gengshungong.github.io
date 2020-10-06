@@ -1,0 +1,58 @@
+I"!<p><code class="highlighter-rouge">jsonp</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="dl">"</span><span class="s2">http://www.abc.com/?data=name&amp;callback=jsonp</span><span class="dl">"</span> <span class="nx">charset</span><span class="o">=</span><span class="dl">"</span><span class="s2">utf-8</span><span class="dl">"</span><span class="o">&gt;&lt;</span><span class="sr">/script&gt;</span><span class="err"> 
+</span>    <span class="c1">// 通过callback的jsonp函数获取数据</span>
+    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">text/javascript</span><span class="dl">"</span><span class="o">&gt;</span>
+     <span class="kd">function</span> <span class="nx">jsonp</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+     <span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre></div></div>
+
+<p><code class="highlighter-rouge">hash</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">//场景是当前页面 A 通过iframe或frame嵌入了跨域的页面 B</span>
+      <span class="c1">// 在A中伪代码如下：</span>
+      <span class="kd">var</span> <span class="nx">B</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">'</span><span class="s1">iframe</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">B</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">B</span><span class="p">.</span><span class="nx">src</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">#</span><span class="dl">'</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">data</span><span class="dl">'</span><span class="p">;</span>
+      <span class="c1">// 在B中的伪代码如下</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">onhashchange</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">hash</span><span class="p">;</span>
+      <span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">postMessage</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">// 窗口A(http:A.com)向跨域的窗口B(http:B.com)发送信息</span>
+      <span class="nx">Bwindow</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">data</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">http://B.com</span><span class="dl">'</span><span class="p">);</span>
+      <span class="c1">// 在窗口B中监听</span>
+      <span class="nx">Awindow</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="dl">'</span><span class="s1">message</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">origin</span><span class="p">);</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">source</span><span class="p">);</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+      <span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">WebSocket</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="kd">var</span> <span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="dl">'</span><span class="s1">ws://echo.websocket.org</span><span class="dl">'</span><span class="p">);</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connection open ...</span><span class="dl">'</span><span class="p">);</span>
+          <span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello WebSockets!</span><span class="dl">'</span><span class="p">);</span>
+      <span class="p">};</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Received Message: </span><span class="dl">'</span><span class="p">,</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+          <span class="nx">ws</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+      <span class="p">};</span>
+      <span class="nx">ws</span><span class="p">.</span><span class="nx">onclose</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Connection closed.</span><span class="dl">'</span><span class="p">);</span>
+      <span class="p">};</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">CORS</code></p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      <span class="c1">// url（必选），options（可选）</span>
+      <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">/some/url/</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+          <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">get</span><span class="dl">'</span><span class="p">,</span>
+      <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+
+      <span class="p">}).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 出错了，等价于 then 的第二个参数，但这样更好用更直观</span>
+      <span class="p">});</span>
+</code></pre></div></div>
+:ET

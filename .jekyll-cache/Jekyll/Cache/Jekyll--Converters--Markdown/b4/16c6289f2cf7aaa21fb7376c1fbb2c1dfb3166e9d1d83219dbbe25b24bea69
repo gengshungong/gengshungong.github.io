@@ -1,0 +1,78 @@
+I"+<ul id="markdown-toc" role="doc-toc">
+  <li><a href="#技术宅" id="markdown-toc-技术宅">技术宅</a>    <ul>
+      <li><a href="#t型男人" id="markdown-toc-t型男人">T型男人</a></li>
+      <li><a href="#开源工具可惜不是自己的" id="markdown-toc-开源工具可惜不是自己的">开源工具（可惜不是自己的）</a></li>
+      <li><a href="#http-协议详解" id="markdown-toc-http-协议详解">HTTP 协议详解</a></li>
+      <li><a href="#redux-实现原理解析及应用" id="markdown-toc-redux-实现原理解析及应用">Redux 实现原理解析及应用</a></li>
+      <li><a href="#react-hooks-的理解" id="markdown-toc-react-hooks-的理解">React Hooks 的理解</a></li>
+      <li><a href="#react-hooks-你真的用对了吗" id="markdown-toc-react-hooks-你真的用对了吗">React Hooks 你真的用对了吗？</a></li>
+      <li><a href="#日常-api" id="markdown-toc-日常-api">日常 API</a></li>
+      <li><a href="#vscode-快捷键" id="markdown-toc-vscode-快捷键">VsCode 快捷键</a></li>
+      <li><a href="#业余兴趣" id="markdown-toc-业余兴趣">业余兴趣</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="技术宅">技术宅</h2>
+
+<h5 id="t型男人">T型男人</h5>
+<ul>
+  <li>webpack学习
+<a href="http://webpack.wuhaolin.cn/">http://webpack.wuhaolin.cn/</a></li>
+</ul>
+
+<h5 id="开源工具可惜不是自己的">开源工具（可惜不是自己的）</h5>
+<ul>
+  <li>flex调试工具
+<a href="http://works.kexiaolong.top/flexible-box-display/">http://works.kexiaolong.top/flexible-box-display/</a></li>
+</ul>
+
+<h5 id="http-协议详解">HTTP 协议详解</h5>
+
+<p><a href="https://blog.csdn.net/weixin_38087538/article/details/82838762">https://blog.csdn.net/weixin_38087538/article/details/82838762</a>
+<br /><br /></p>
+
+<h5 id="redux-实现原理解析及应用">Redux 实现原理解析及应用</h5>
+
+<p><a href="https://www.jianshu.com/p/e984206553c2">https://www.jianshu.com/p/e984206553c2</a>
+<br /><br /></p>
+
+<h5 id="react-hooks-的理解">React Hooks 的理解</h5>
+
+<p><a href="https://www.jianshu.com/p/76901410645a">https://www.jianshu.com/p/76901410645a</a></p>
+
+<h5 id="react-hooks-你真的用对了吗">React Hooks 你真的用对了吗？</h5>
+
+<p><a href="https://zhuanlan.zhihu.com/p/85969406">https://zhuanlan.zhihu.com/p/85969406</a>
+<br /><br /></p>
+
+<h3 id="日常-api">日常 API</h3>
+
+<ul>
+  <li>接口示例：<code class="highlighter-rouge">百度，腾讯，高德地图JS API示例</code>
+在线工具网页：<code class="highlighter-rouge">经纬度查询| 批量查询经纬度 |IP归属地 |手机号归属地查询 | 区划代码查询</code><a href="http://www.gpsspg.com/">http://www.gpsspg.com/</a></li>
+</ul>
+
+<h3 id="vscode-快捷键">VsCode 快捷键</h3>
+
+<p><a href="https://www.cnblogs.com/informatics/p/8315339.html">https://www.cnblogs.com/informatics/p/8315339.html</a></p>
+
+<h3 id="业余兴趣">业余兴趣</h3>
+
+<ul>
+  <li>美文网 - 常阅读，多交友！
+<a href="http://www.mw8.com/">http://www.mw8.com/</a></li>
+  <li>js 秘密花园
+<a href="http://bonsaiden.github.io/JavaScript-Garden/zh/">http://bonsaiden.github.io/JavaScript-Garden/zh/</a></li>
+  <li>IT 技术论坛！
+<a href="http://community.itbbs.cn/">http://community.itbbs.cn/</a></li>
+  <li>V2EX 技术论坛
+<a href="https://www.v2ex.com/">https://www.v2ex.com/</a></li>
+  <li>图片压缩！
+<a href="https://tinypng.com/">https://tinypng.com/</a></li>
+  <li>制作 Icon
+<a href="http://www.bitbug.net/">http://www.bitbug.net/</a></li>
+  <li>视频下载
+<a href="https://www.haobang.fun/">https://www.haobang.fun/</a></li>
+</ul>
+:ET

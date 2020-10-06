@@ -1,0 +1,104 @@
+I"<<p>1.首先引入antd组件</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> import {
+Checkbox,
+Transfer,
+Input,	
+} from ‘antd’
+const { Search } = Input
+
+</code></pre></div></div>
+
+<p>2.然后进行自定义穿梭框和相应的函数方法</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+const isChecked = (selectedKeys: any, eventKey: any) =&gt; {
+  return selectedKeys.indexOf(eventKey) !== -1;
+};
+
+const isDisabled = (checkedKeys: any, eventKey: any) =&gt; {
+  return checkedKeys.includes(eventKey)
+}
+//  自定义穿梭框
+const TreeTransfer = (data: any) =&gt; {
+  const { dataSource, targetKeys, onSearch, ...restProps } = data
+  const transferDataSource: any[] = [];
+  function flatten(list: any[]) {
+    list.forEach(item =&gt; {
+      transferDataSource.push(item);
+    });
+  }
+  flatten(dataSource);
+  return (
+    &lt;Transfer
+      {...restProps}
+      targetKeys={targetKeys}
+      dataSource={transferDataSource}
+      className="tree-transfer"
+      render={item =&gt; item.title}
+      listStyle=
+    &gt;
+      {(props: any) =&gt; {
+        const { direction, selectedKeys, onItemSelect, onItemSelectAll } = props
+        if (direction === 'left') {
+          const checkedKeys = [...selectedKeys, ...targetKeys];
+          return (
+            &lt;div&gt;
+              &lt;Search
+                placeholder="请输入管理单位"
+                onSearch={onSearch}
+                style=
+              /&gt;
+              {
+                &lt;Checkbox.Group onChange={(value: any) =&gt; {
+                  onItemSelect(value, !isChecked(checkedKeys, value))
+                  onItemSelectAll(value, !isChecked(checkedKeys, value))
+                }
+                } value={checkedKeys} defaultValue={targetKeys}&gt;
+                  {
+                    dataSource.map((item: any) =&gt; (
+                      &lt;div className="checkbox"&gt;
+                        &lt;Checkbox value={item.key} disabled={isDisabled(targetKeys, item.key)}&gt;
+                          {item.title}
+                        &lt;/Checkbox&gt;
+                      &lt;/div&gt;
+                    ))
+                  }
+                &lt;/Checkbox.Group &gt;
+              }
+            &lt;/div&gt;)
+        } else {
+          return false
+        }
+      }
+      }
+    &lt;/Transfer&gt;)
+}
+
+</code></pre></div></div>
+
+<p>2.最后进行自定义穿梭框的引入</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+this.state = {
+      mockData: [],
+      newtargetKeys: []
+    };
+
+public newhandleChange = (targetKeys: any) =&gt; {
+    this.setState({ newtargetKeys: targetKeys });
+  };
+public handleSearch = (dir: any, value:any) =&gt; {
+console.log(‘dir’,dir,’value’,value)
+}
+
+&lt;TreeTransfer
+            dataSource={this.state.mockData}
+            targetKeys={this.state.newtargetKeys} //这个可以自己定义
+            onChange={this.newhandleChange} //方法可以自己定义
+            onSearch={this.handleSearch}
+          /&gt;
+
+</code></pre></div></div>
+
+<p>```</p>
+:ET

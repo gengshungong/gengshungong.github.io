@@ -1,0 +1,80 @@
+I"�<blockquote>
+  <p>yarn的安装</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">npm install -g yarn</code>（使用Node)</li>
+  <li>
+    <p><code class="highlighter-rouge">npm install yarn@latest -g</code>（升级到最新版本）</p>
+  </li>
+  <li><code class="highlighter-rouge">/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code> (homebrew的安装)</li>
+  <li><code class="highlighter-rouge">brew install yarn</code> (使用homebrew安装yarn)</li>
+</ul>
+
+<blockquote>
+  <p>1.查询当前配置的镜像</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn config get registry</code></li>
+</ul>
+
+<blockquote>
+  <p>设置成淘宝镜像</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn config set registry http://registry.npm.taobao.org/</code></li>
+</ul>
+
+<blockquote>
+  <p>yarn和npm的使用</p>
+</blockquote>
+
+<h4 id="1初始化包">1、初始化包</h4>
+<ul>
+  <li><code class="highlighter-rouge">npm init</code></li>
+  <li><code class="highlighter-rouge">yarn init</code>
+    <h4 id="2安装包">2、安装包</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm install xxx --save</code></li>
+  <li><code class="highlighter-rouge">yarn add xxx</code>
+    <h4 id="3移除包">3、移除包</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm uninstall xxx</code></li>
+  <li><code class="highlighter-rouge">yarn remove xxx</code>
+    <h4 id="4更新包">4、更新包</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm update xxx</code></li>
+  <li><code class="highlighter-rouge">yarn upgrade xxx</code>
+    <h4 id="5安装开发依赖的包">5、安装开发依赖的包</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm install xxx --save-dev</code></li>
+  <li><code class="highlighter-rouge">yarn add xxx --dev</code>
+    <h4 id="6全局安装">6、全局安装</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm install -g xxx</code></li>
+  <li><code class="highlighter-rouge">yarn global add xxx</code>
+    <h4 id="7设置下载镜像的地址">7、设置下载镜像的地址</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm config set registry url</code></li>
+  <li><code class="highlighter-rouge">yarn config set registry url</code>
+    <h4 id="8安装所有依赖">8、安装所有依赖</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm install</code></li>
+  <li><code class="highlighter-rouge">yarn install</code>
+    <h4 id="9执行包">9、执行包</h4>
+  </li>
+  <li><code class="highlighter-rouge">npm run</code></li>
+  <li><code class="highlighter-rouge">yarn run</code></li>
+</ul>
+
+<blockquote>
+  <p>yarn装依赖时报错</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>error  Incorrect integrity when fetching from the cache
+info Visit https://yarnpkg.com/en/docs/cli/add for documentation about this command. 
+</code></pre></div></div>
+<p>使用 <code class="highlighter-rouge">yarn cache clean</code> 解决（清除缓存）</p>
+:ET

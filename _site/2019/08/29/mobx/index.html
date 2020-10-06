@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>关于装饰器的解析与使用 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2019/08/29/mobx/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="关于装饰器的解析与使用, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>关于装饰器的解析与使用</h1>
+		    <p>Post on Aug 29, 2019 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#mobx-ref">mobx</a> /
+    <a href="/tag/#mobx-ref">mobx</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">关于装饰器的解析与使用</h1>
+              <!--
+                <p class="post-meta">Aug 29, 2019</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Aug 29, 2019</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <h2 id="在react中使用装饰器和mobx如何去配置">在react中使用装饰器和Mobx如何去配置</h2>
+
+<p>1.首先构建脚手架项目,（其他文件可删除只留如下目录文件）</p>
+
+<ul>
+  <li><code class="highlighter-rouge">create-react-app MobxApp</code></li>
+</ul>
+
+<p><a href="http://localhost:4000/images/2019829/1.png"><img src="http://localhost:4000/images/2019829/1.png" alt="1" /></a></p>
+
+<p>2.然后安装mobx, mobx-react</p>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add mobx mobx-react</code></li>
+</ul>
+
+<p>3.## 重点来了（关于装饰器的配置）</p>
+<p><span>经常遇到的装饰器@符号不被识别，怎么解决呢？</span></p>
+<p>3.1 首先安装</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  customize-cra
+  react-app-rewired 
+  @babel/plugin-proposal-decorators
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add customize-cra react-app-rewired @babel/plugin-proposal-decorators --dev
+</code></li>
+</ul>
+
+<p>3.2然后在package.json中添加配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "transform-decorators-legacy"
+      ]
+    ]
+  }
+
+</code></pre></div></div>
+<p>再更改package.json中的”scripts”部分</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+
+</code></pre></div></div>
+
+<p>3.3然后在项目根目录新建config-overrides.js文件，再添加以下配置</p>
+
+<p><a href="http://localhost:4000/images/2019829/2.png"><img src="http://localhost:4000/images/2019829/2.png" alt="2" /></a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const { override, addDecoratorsLegacy } = require('customize-cra');
+module.exports = override(
+    addDecoratorsLegacy()
+)
+
+</code></pre></div></div>
+<p>4.这个时候我们便可以开始使用我们的mobx和装饰器了</p>
+<p>4.1在index.js里可以是初始化状态</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+
+</code></pre></div></div>
+
+<p>4.2在App.js里我们使用mobx和装饰器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React, { Component } from 'react';
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
+@observer
+class App extends Component {
+  @observable count = 1
+  render() {
+    return (
+      &lt;div className="App" &gt;
+        {this.count}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default App;
+
+</code></pre></div></div>
+
+<p>5.最后，我们的项目便可以跑起来了,yarn start正常运行项目</p>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add mobx mobx-react</code></li>
+</ul>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

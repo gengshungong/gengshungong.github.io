@@ -1,0 +1,307 @@
+I"Å<ul id="markdown-toc" role="doc-toc">
+  <li><a href="#基于学习-javascript-数据结构与算法一书的算法知识整理" id="markdown-toc-基于学习-javascript-数据结构与算法一书的算法知识整理">基于学习 javascript 数据结构与算法一书的算法知识整理</a>    <ul>
+      <li><a href="#栈及其各个方法的封装使用-es6-语法" id="markdown-toc-栈及其各个方法的封装使用-es6-语法">栈及其各个方法的封装(使用 es6 语法)</a></li>
+      <li><a href="#队列" id="markdown-toc-队列">队列</a></li>
+      <li><a href="#单链表" id="markdown-toc-单链表">单链表</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="基于学习-javascript-数据结构与算法一书的算法知识整理">基于学习 javascript 数据结构与算法一书的算法知识整理</h4>
+
+<p><code class="highlighter-rouge">斐波那契数列</code></p>
+
+<blockquote>
+  <p>原理：从第三项开始，每一项等于前两项的和</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fibonac</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">fibonacci</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">fibonacci</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">fibonacci</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">fibonacci</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="nx">fibonacci</span><span class="p">[</span><span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">num</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">===</span> <span class="nx">num</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fibonacci</span><span class="p">[</span><span class="nx">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">num</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">1</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">num</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="mi">2</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="栈及其各个方法的封装使用-es6-语法">栈及其各个方法的封装(使用 es6 语法)</h5>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Stack</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="p">}</span>
+  <span class="nx">push</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">pop</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">pop</span><span class="p">()</span>
+  <span class="p">}</span>
+  <span class="nx">peek</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="p">}</span>
+  <span class="nx">isEmpty</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span>
+  <span class="p">}</span>
+  <span class="nx">size</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span>
+  <span class="p">}</span>
+  <span class="nx">clear</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">arr</span> <span class="o">=</span> <span class="p">[])</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">案例</code></p>
+
+<blockquote>
+  <p>将一个值转为进制数 decNumber 为值 base 为进制类型,比如 2,8,16</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">baseConverter</span> <span class="o">=</span> <span class="p">(</span><span class="nx">decNumber</span><span class="p">,</span> <span class="nx">base</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">remStack</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stack</span><span class="p">(),</span>
+    <span class="nx">rem</span><span class="p">,</span>
+    <span class="nx">baseString</span> <span class="o">=</span> <span class="dl">''</span><span class="p">,</span>
+    <span class="nx">digits</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">0123456789ABCDEF</span><span class="dl">'</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">decNumber</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">rem</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">decNumber</span> <span class="o">%</span> <span class="nx">base</span><span class="p">)</span>
+    <span class="nx">remStack</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">rem</span><span class="p">)</span>
+    <span class="nx">decNumber</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">decNumber</span> <span class="o">/</span> <span class="nx">base</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="nx">remStack</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nx">baseString</span> <span class="o">+=</span> <span class="nx">digits</span><span class="p">[</span><span class="nx">remStack</span><span class="p">.</span><span class="nx">pop</span><span class="p">()]</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">baseString</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="队列">队列</h5>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Queue</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">arr</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="p">}</span>
+  <span class="nx">enqueue</span> <span class="o">=</span> <span class="nx">element</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">dequeue</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">shift</span><span class="p">()</span>
+  <span class="p">}</span>
+  <span class="nx">front</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="p">}</span>
+  <span class="nx">isEmpty</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="mi">0</span>
+  <span class="p">}</span>
+  <span class="nx">size</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">arr</span><span class="p">.</span><span class="nx">length</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">案例</code></p>
+
+<blockquote>
+  <p>优先队列</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">QueueElement</span> <span class="p">{</span>
+  <span class="kd">constructor</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">priority</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">priority</span> <span class="o">=</span> <span class="nx">priority</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">const</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="kd">class</span> <span class="nx">PriorityQueue</span> <span class="p">{</span>
+  <span class="nx">enqueue</span> <span class="o">=</span> <span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">priority</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">queueElement</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">QueueElement</span><span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">priority</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">items</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">items</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">queueElement</span><span class="p">)</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">added</span> <span class="o">=</span> <span class="kc">false</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">items</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">queueElement</span><span class="p">.</span><span class="nx">priority</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">priority</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">items</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">queueElement</span><span class="p">)</span>
+          <span class="nx">added</span> <span class="o">=</span> <span class="kc">true</span>
+          <span class="k">break</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">added</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">items</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">queueElement</span><span class="p">)</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">items</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>击鼓传花游戏</p>
+</blockquote>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">hotPotato</span> <span class="o">=</span> <span class="p">(</span><span class="nx">nameList</span><span class="p">,</span> <span class="nx">num</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Queue</span><span class="p">()</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kd">const</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">nameList</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">queue</span><span class="p">.</span><span class="nx">enqueue</span><span class="p">(</span><span class="nx">nameList</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+  <span class="p">}</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">queue</span><span class="p">.</span><span class="nx">size</span><span class="p">())</span>
+  <span class="kd">let</span> <span class="nx">eliminated</span> <span class="o">=</span> <span class="dl">''</span>
+  <span class="k">while</span> <span class="p">(</span><span class="nx">queue</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">num</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">queue</span><span class="p">.</span><span class="nx">enqueue</span><span class="p">(</span><span class="nx">queue</span><span class="p">.</span><span class="nx">dequeue</span><span class="p">())</span>
+    <span class="p">}</span>
+    <span class="nx">eliminated</span> <span class="o">=</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">dequeue</span><span class="p">()</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">eliminated</span> <span class="o">+</span> <span class="dl">'</span><span class="s1">在击鼓传花游戏中被淘汰。</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">queue</span><span class="p">.</span><span class="nx">dequeue</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h5 id="单链表">单链表</h5>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">LinkedList</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">Node</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">element</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="p">}</span>
+  <span class="kd">var</span> <span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="kd">var</span> <span class="nx">head</span> <span class="o">=</span> <span class="kc">null</span>
+  <span class="c1">// 尾部添加一个元素</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">append</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Node</span><span class="p">(</span><span class="nx">element</span><span class="p">),</span>
+      <span class="nx">current</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">head</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//列表中第一个节点</span>
+      <span class="nx">head</span> <span class="o">=</span> <span class="nx">node</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span>
+      <span class="c1">//循环列表，直到找到最后一项</span>
+      <span class="k">while</span> <span class="p">(</span><span class="nx">current</span><span class="p">.</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+      <span class="p">}</span>
+      <span class="c1">//找到最后一项，将其next赋为node，建立连接</span>
+      <span class="nx">current</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="nx">node</span>
+    <span class="p">}</span>
+    <span class="nx">length</span><span class="o">++</span> <span class="c1">//更新列表的长度</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 移除某个元素</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">removeAt</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//检查越界值</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nx">position</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// {1}</span>
+      <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span><span class="p">,</span> <span class="c1">// {2}</span>
+        <span class="nx">previous</span><span class="p">,</span> <span class="c1">// {3}</span>
+        <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">// {4}</span>
+      <span class="c1">//移除第一项</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// {5}</span>
+        <span class="nx">head</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">index</span><span class="o">++</span> <span class="o">&lt;</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// {6}</span>
+          <span class="nx">previous</span> <span class="o">=</span> <span class="nx">current</span> <span class="c1">// {7}</span>
+          <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span> <span class="c1">// {8}</span>
+        <span class="p">}</span>
+        <span class="c1">//将previous与current的下一项链接起来:跳过current，从而移除它</span>
+        <span class="nx">previous</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span> <span class="c1">// {9}</span>
+      <span class="p">}</span>
+      <span class="nx">length</span><span class="o">--</span> <span class="c1">// {10}</span>
+      <span class="k">return</span> <span class="nx">current</span><span class="p">.</span><span class="nx">element</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">null</span> <span class="c1">// {11}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// 插入元素</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">insert</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">position</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//检查越界值</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">position</span> <span class="o">&lt;=</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//{1}</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Node</span><span class="p">(</span><span class="nx">element</span><span class="p">),</span>
+        <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span><span class="p">,</span>
+        <span class="nx">previous</span><span class="p">,</span>
+        <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//在第一个位置添加</span>
+        <span class="nx">node</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="nx">current</span>
+        <span class="nx">head</span> <span class="o">=</span> <span class="nx">node</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nx">index</span><span class="o">++</span> <span class="o">&lt;</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">previous</span> <span class="o">=</span> <span class="nx">current</span>
+          <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+        <span class="p">}</span>
+        <span class="nx">node</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="nx">current</span>
+        <span class="nx">previous</span><span class="p">.</span><span class="nx">next</span> <span class="o">=</span> <span class="nx">node</span>
+      <span class="p">}</span>
+      <span class="nx">length</span><span class="o">++</span> <span class="c1">//更新列表的长度</span>
+      <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">false</span> <span class="c1">//{6}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="c1">// toString()</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span><span class="p">,</span>
+      <span class="nx">string</span> <span class="o">=</span> <span class="dl">''</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">current</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">string</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">element</span>
+      <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">string</span> <span class="c1">//{6}</span>
+  <span class="p">}</span>
+  <span class="c1">// get获取某个位置的数据</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="kd">get</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 越界判断</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">position</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span>
+      <span class="c1">// head.next = current</span>
+      <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">while</span> <span class="p">(</span><span class="nx">index</span><span class="o">++</span> <span class="o">&lt;</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">current</span><span class="p">.</span><span class="nx">element</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// indexOf()</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">indexOf</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span><span class="p">,</span> <span class="c1">//{1}</span>
+      <span class="nx">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nx">current</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//{2}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">element</span> <span class="o">===</span> <span class="nx">current</span><span class="p">.</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">index</span> <span class="c1">//{3}</span>
+      <span class="p">}</span>
+      <span class="nx">index</span><span class="o">++</span> <span class="c1">//{4}</span>
+      <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span> <span class="c1">//{5}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 更新某个位置的数据</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">newElement</span><span class="p">,</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">position</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">position</span> <span class="o">&lt;</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">head</span>
+      <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">while</span> <span class="p">(</span><span class="nx">index</span><span class="o">++</span> <span class="o">&lt;</span> <span class="nx">position</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">current</span> <span class="o">=</span> <span class="nx">current</span><span class="p">.</span><span class="nx">next</span>
+      <span class="p">}</span>
+      <span class="nx">current</span><span class="p">.</span><span class="nx">element</span> <span class="o">=</span> <span class="nx">newElement</span>
+      <span class="c1">// 修改成功标识</span>
+      <span class="k">return</span> <span class="kc">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 删除某个数据</span>
+  <span class="nx">LinkedList</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">remove</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">position</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">removeAt</span><span class="p">(</span><span class="nx">position</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+:ET

@@ -1,0 +1,15 @@
+I"�<h2 id="mongodb的使用">mongodb的使用</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>配置环境变量，打开终端，输入“open -e .bash_profile”  (可以手动输入)
+命令行设置环境变量 
+echo 'export PATH=/usr/local/mongodb/bin:$PATH'&gt;&gt;~/.bash_profile
+启动
+source ~/.bash_profile(先使配置生效)
+mongod —dbpath .
+
+停止
+mongo
+&gt;use admin
+&gt;db.shutdownServer()
+</code></pre></div></div>
+:ET

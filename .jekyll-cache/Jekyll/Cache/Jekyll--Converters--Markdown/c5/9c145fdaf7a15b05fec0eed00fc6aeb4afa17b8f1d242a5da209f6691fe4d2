@@ -1,0 +1,17 @@
+I"�<h4 id="1如何将后端的接口返回的时间戳转化为自定义时间格式">1.如何将后端的接口返回的时间戳转化为自定义时间格式</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   const data = res.data.time  //假设是后端的时间戳数据
+    Date.prototype.toLocaleString = function() {
+        console.log(this.getYear() + '年' + (this.getMonth + 1) + '月' + this.getDate() + '日')
+    }
+    let date = new Date(data)
+    date.toLocaleString()
+</code></pre></div></div>
+
+<h4 id="2如何将后端的接口返回的时间戳转化为时间格式">2.如何将后端的接口返回的时间戳转化为时间格式</h4>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>timestampToTime = timestamp =&gt; {
+return new Date(parseFloat(timestamp)).toLocaleString()
+}
+</code></pre></div></div>
+:ET

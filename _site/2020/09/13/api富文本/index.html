@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>简单记录下react中使用富文本 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2020/09/13/api%E5%AF%8C%E6%96%87%E6%9C%AC/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="简单记录下react中使用富文本, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>简单记录下react中使用富文本</h1>
+		    <p>Post on Sep 13, 2020 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#-ref"></a> /
+    <a href="/tag/#reactAPI-ref">reactAPI</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">简单记录下react中使用富文本</h1>
+              <!--
+                <p class="post-meta">Sep 13, 2020</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Sep 13, 2020</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <h5 id="在react项目中使用富文本编辑器">在react项目中使用富文本编辑器</h5>
+
+<p>首先，先安装 draftjs-to-html、react-draft-wysiwyg</p>
+
+<blockquote>
+  <p>yarn add draftjs-to-html react-draft-wysiwyg</p>
+</blockquote>
+
+<p>话不多说，然后直接上代码：(这里使用的是antd组件进行组合使用)</p>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span><span class="p">,</span> <span class="nx">Card</span><span class="p">,</span> <span class="nx">Modal</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">antd</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Editor</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-draft-wysiwyg</span><span class="dl">'</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">react-draft-wysiwyg/dist/react-draft-wysiwyg.css</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">draftjs</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">draftjs-to-html</span><span class="dl">'</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">class</span> <span class="nx">RichText</span> <span class="kd">extends</span> <span class="nx">React</span><span class="p">.</span><span class="nx">Component</span> <span class="p">{</span>
+
+    <span class="nx">state</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="na">showRichText</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">editorContent</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>  
+        <span class="na">editorState</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="c1">// 清空富文本内容</span>
+    <span class="nx">handleClearContent</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="na">editorState</span><span class="p">:</span> <span class="dl">''</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="c1">// 展示富文本内容</span>
+    <span class="nx">handleGetText</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="na">showRichText</span><span class="p">:</span> <span class="kc">true</span>
+        <span class="p">})</span>
+    <span class="p">}</span>
+    <span class="c1">// 监听展示内容变化</span>
+    <span class="nx">onEditorChange</span> <span class="o">=</span> <span class="p">(</span><span class="nx">editorContent</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="nx">editorContent</span><span class="p">,</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+    <span class="c1">// 监听富文本编辑器内容的变化</span>
+    <span class="nx">onEditorStateChange</span> <span class="o">=</span> <span class="p">(</span><span class="nx">editorState</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+            <span class="nx">editorState</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+
+    <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="p">{</span> <span class="nx">editorContent</span><span class="p">,</span> <span class="nx">editorState</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">Card</span> <span class="nx">style</span><span class="o">=&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">primary</span><span class="dl">"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleClearContent</span><span class="p">}</span><span class="o">&gt;</span><span class="err">清空内容</span><span class="o">&lt;</span><span class="sr">/Button</span><span class="err">&gt;
+</span>                    <span class="o">&lt;</span><span class="nx">Button</span> <span class="nx">type</span><span class="o">=</span><span class="dl">"</span><span class="s2">primary</span><span class="dl">"</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">handleGetText</span><span class="p">}</span><span class="o">&gt;</span><span class="err">获取</span><span class="nx">HTML</span><span class="err">文本</span><span class="o">&lt;</span><span class="sr">/Button</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="sr">/Card</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="nx">Card</span> <span class="nx">title</span><span class="o">=</span><span class="dl">"</span><span class="s2">富文本编辑器</span><span class="dl">"</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nx">Editor</span>
+                        <span class="nx">editorState</span><span class="o">=</span><span class="p">{</span><span class="nx">editorState</span><span class="p">}</span>
+                        <span class="nx">onContentStateChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onEditorChange</span><span class="p">}</span>
+                        <span class="nx">onEditorStateChange</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">onEditorStateChange</span><span class="p">}</span>
+                    <span class="sr">/</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="sr">/Card</span><span class="err">&gt;
+</span>                <span class="o">&lt;</span><span class="nx">Modal</span>
+                    <span class="nx">title</span><span class="o">=</span><span class="dl">"</span><span class="s2">富文本</span><span class="dl">"</span>
+                    <span class="nx">visible</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">showRichText</span><span class="p">}</span>
+                    <span class="nx">onCancel</span><span class="o">=</span><span class="p">{()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+                        <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+                            <span class="na">showRichText</span><span class="p">:</span> <span class="kc">false</span>
+                        <span class="p">})</span>
+                    <span class="p">}}</span>
+                    <span class="nx">footer</span><span class="o">=</span><span class="p">{</span><span class="kc">null</span><span class="p">}</span>
+                <span class="o">&gt;</span>
+                    <span class="p">{</span><span class="nx">draftjs</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">editorContent</span><span class="p">)}</span>
+                <span class="o">&lt;</span><span class="sr">/Modal</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>该api有趣，后续继续更新。。。</p>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

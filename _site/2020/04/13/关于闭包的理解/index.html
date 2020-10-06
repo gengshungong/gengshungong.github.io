@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>关于闭包的理解 - Tffeb</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.ico">
+	<link rel="icon" href="/styles/images/favicon.ico">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2020/04/13/%E5%85%B3%E4%BA%8E%E9%97%AD%E5%8C%85%E7%9A%84%E7%90%86%E8%A7%A3/">
+	<link rel="alternate" type="application/rss+xml" title="Tffeb"
+		href="/feed.xml">
+
+	<meta name="keywords"
+		content="关于闭包的理解, Tffeb, 刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+	<meta name="description" content="刘秉松;个人博客;做好自己喜欢的每一件事;认清自己;做自己;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+	<script>
+		var _hmt = _hmt || [];
+		(function () {
+			var hm = document.createElement("script");
+			hm.src = "https://hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+	<!-- <script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?49a7cfa6b548ec9bf285a5c8d1684b1f";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script> -->
+	<style type="text/css">
+		.docs-content {
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button
+        class="navbar-toggle"
+        type="button"
+        data-toggle="collapse"
+        data-target=".bs-navbar-collapse"
+      >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg" />
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/">Blog Article</a>
+        </li>
+        <li>
+          <a href="/categories/">技术分类</a>
+        </li>
+        <li>
+          <a href="/tag">标签分类</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            >关于<b class="caret"></b
+          ></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a rel="nofollow" target="_blank" href="https://github.com/Tffeb/"
+                >My Github</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/question"
+                >面试题海</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/self_introduction"
+                >我的故事</a
+              >
+            </li>
+            <li>
+              <a rel="nofollow" href="/books"
+                >我的书单</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/algorithm"
+                >算法精髓</a
+              >
+            </li>
+            <li>
+              <a
+                rel="nofollow"
+                href="/reference"
+                >IT小屋</a
+              >
+            </li>
+            <!-- <li class="divider"></li> -->
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>关于闭包的理解</h1>
+		    <p>Post on Apr 13, 2020 by <a href="/about">Tffeb</a></p>
+		-->
+		    <h1>write less do more.</h1>
+    
+  </div>
+</div>
+    
+      <div class="banner">
+  <div class="container">
+    
+    <a href="/categories/#-ref"></a> /
+    <a href="/tag/#js-ref">js</a> /
+    
+  </div>
+</div>
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">关于闭包的理解</h1>
+              <!--
+                <p class="post-meta">Apr 13, 2020</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Apr 13, 2020</span> By <a target="_blank" href="http://localhost:4000">Tffeb</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc" role="doc-toc">
+  <li><a href="#闭包应用场景" id="markdown-toc-闭包应用场景">闭包应用场景</a></li>
+</ul>
+
+<blockquote>
+  <p><code class="highlighter-rouge">闭包函数定义</code>声明在一个函数中的函数
+<code class="highlighter-rouge">闭包定义</code>内部函数总是可以访问其所在的外部函数中声明的参数和变量,即使在其外部函数被返回了之后</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">特点</code> <br />1.让外部访问函数内部变量成为可能；<br />   2.局部变量会常驻在内存中；<br /> 3.可以避免使用全局变量，防止全局变量污染；<br />4.会造成内存泄漏(内存空间长期被占用，而不被释放)</p>
+</blockquote>
+
+<h5 id="闭包应用场景">闭包应用场景</h5>
+
+<p><code class="highlighter-rouge">例1</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">funA</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="c1">// funA的活动对象之中;</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//匿名函数的活动对象;</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">funA</span><span class="p">();</span>
+<span class="nx">b</span><span class="p">();</span> <span class="c1">//10</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例2</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">outerFn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">function</span> <span class="nx">innerFn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">innerFn</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">inner</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span> <span class="c1">//每次外部函数执行的时候，外部函数的地址不同，都会重新创建一个新的地址</span>
+<span class="nx">inner</span><span class="p">();</span>
+<span class="nx">inner</span><span class="p">();</span>
+<span class="nx">inner</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">inner2</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span> <span class="c1">//1 2 3 1 2 3</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例3</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">outerFn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">innnerFn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">innnerFn</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">inner1</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">inner2</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span> <span class="c1">//1 2 3 4</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例4</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">++</span><span class="nx">a</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">fn</span><span class="p">()());</span> <span class="c1">//4</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">fn</span><span class="p">()());</span> <span class="c1">//4</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例5</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">outerFn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">function</span> <span class="nx">innnerFn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">innnerFn</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">inner1</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">inner2</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span> <span class="c1">//1 1 2 2</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例5</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">outerFn</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">function</span> <span class="nx">innnerFn</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">innnerFn</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">inner1</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">inner2</span> <span class="o">=</span> <span class="nx">outerFn</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span>
+<span class="nx">inner1</span><span class="p">();</span>
+<span class="nx">inner2</span><span class="p">();</span> <span class="c1">//1 1 2 2</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例6</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">m</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">function</span> <span class="nx">getM</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">m</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="kd">function</span> <span class="nx">seta</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">m</span> <span class="o">=</span> <span class="nx">val</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">g</span> <span class="o">=</span> <span class="nx">getM</span><span class="p">;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">f</span> <span class="o">=</span> <span class="nx">seta</span><span class="p">;</span>
+<span class="p">})();</span>
+<span class="nx">f</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">g</span><span class="p">());</span> <span class="c1">//100  闭包找到的是同一地址中父级函数中对应变量最终的值</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例7</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">a</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="kd">function</span> <span class="nx">b</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="o">++</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">a</span><span class="p">();</span>
+<span class="nx">c</span><span class="p">();</span> <span class="c1">//1</span>
+<span class="nx">c</span><span class="p">();</span> <span class="c1">//2</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例8</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">tmp</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">sum</span> <span class="o">=</span> <span class="nx">sum</span> <span class="o">+</span> <span class="nx">x</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">tmp</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="nx">tmp</span><span class="p">.</span><span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">sum</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="k">return</span> <span class="nx">tmp</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">)(</span><span class="mi">3</span><span class="p">));</span> <span class="c1">//6</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例9</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">lis</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="dl">"</span><span class="s2">li</span><span class="dl">"</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">lis</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">lis</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">onclick</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+    <span class="p">};</span>
+  <span class="p">})(</span><span class="nx">i</span><span class="p">);</span> <span class="c1">//事件处理函数中闭包的写法</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例10</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">m1</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">++</span><span class="nx">x</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+<span class="nx">m1</span><span class="p">()();</span> <span class="c1">//2</span>
+<span class="nx">m1</span><span class="p">()();</span> <span class="c1">//2</span>
+<span class="nx">m1</span><span class="p">()();</span> <span class="c1">//2</span>
+<span class="kd">var</span> <span class="nx">m2</span> <span class="o">=</span> <span class="nx">m1</span><span class="p">();</span>
+<span class="nx">m2</span><span class="p">();</span> <span class="c1">//2</span>
+<span class="nx">m2</span><span class="p">();</span> <span class="c1">//3</span>
+<span class="nx">m2</span><span class="p">();</span> <span class="c1">//4</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例11</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span>  <span class="nx">fn</span><span class="o">=</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+   <span class="kd">var</span>  <span class="nx">i</span><span class="o">=</span><span class="mi">10</span><span class="p">;</span>
+   <span class="kd">function</span>  <span class="nx">fn</span><span class="p">(){</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="o">++</span><span class="nx">i</span><span class="p">);</span>
+   <span class="p">}</span>
+   <span class="k">return</span>   <span class="nx">fn</span><span class="p">;</span>
+<span class="p">})()</span> 
+<span class="nx">fn</span><span class="p">();</span>   <span class="c1">//11</span>
+<span class="nx">fn</span><span class="p">();</span>   <span class="c1">//12</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例12</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">love1</span><span class="p">(){</span>
+     <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">223</span><span class="p">;</span>
+     <span class="kd">var</span> <span class="nx">me1</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+           <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span>
+     <span class="p">}</span>
+     <span class="nx">num</span><span class="o">++</span><span class="p">;</span>
+     <span class="k">return</span> <span class="nx">me1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">loveme1</span> <span class="o">=</span> <span class="nx">love1</span><span class="p">();</span>
+<span class="nx">loveme1</span><span class="p">();</span>   <span class="c1">//输出224</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例13</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fun</span><span class="p">(</span><span class="nx">n</span><span class="p">,</span><span class="nx">o</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">o</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+         <span class="na">fun</span><span class="p">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">m</span><span class="p">)</span> <span class="p">{</span>
+               <span class="k">return</span> <span class="nx">fun</span><span class="p">(</span><span class="nx">m</span><span class="p">,</span><span class="nx">n</span><span class="p">);</span>
+         <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">fun</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>  <span class="c1">//undefined</span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">fun</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  <span class="c1">//0  </span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">fun</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  <span class="c1">//0  </span>
+<span class="nx">a</span><span class="p">.</span><span class="nx">fun</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>  <span class="c1">//0  </span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">fun</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">fun</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">fun</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">fun</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>   <span class="c1">//undefined  0  1  2</span>
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">fun</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">fun</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>  
+<span class="nx">c</span><span class="p">.</span><span class="nx">fun</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>  
+<span class="nx">c</span><span class="p">.</span><span class="nx">fun</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>  <span class="c1">//undefined  0  1  1</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例14</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fn</span><span class="p">(){</span>
+   <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+   <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span><span class="nx">i</span> <span class="o">++</span><span class="p">){</span>
+	 <span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+		 <span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+	 <span class="p">}</span>
+   <span class="p">}</span>
+   <span class="k">return</span> <span class="nx">arr</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nx">len</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">++</span><span class="p">){</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">]());</span>
+<span class="p">}</span>  <span class="c1">//5 5 5 5 5</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">例15</code></p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">fn</span><span class="p">(){</span>
+  <span class="kd">var</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span><span class="nx">i</span> <span class="o">++</span><span class="p">){</span>
+	<span class="nx">arr</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">i</span><span class="p">){</span>
+		<span class="k">return</span> <span class="kd">function</span> <span class="p">(){</span>
+			<span class="k">return</span> <span class="nx">i</span><span class="p">;</span>
+		<span class="p">};</span>
+	<span class="p">})(</span><span class="nx">i</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nx">arr</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">list</span> <span class="o">=</span> <span class="nx">fn</span><span class="p">();</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="nx">len</span> <span class="o">=</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span> <span class="p">;</span> <span class="nx">i</span> <span class="o">++</span><span class="p">){</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">]());</span>
+<span class="p">}</span>  <span class="c1">//0 1 2 3 4</span>
+</code></pre></div></div>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2019-2020 <a href="https://github.com/Tffeb/"><code>Tffeb</code></a>.</p>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+
+  </body>
+</html>

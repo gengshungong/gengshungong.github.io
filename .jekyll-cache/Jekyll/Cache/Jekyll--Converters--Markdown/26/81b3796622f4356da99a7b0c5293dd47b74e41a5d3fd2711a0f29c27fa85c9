@@ -1,0 +1,103 @@
+I"]<h2 id="在react中使用装饰器和mobx如何去配置">在react中使用装饰器和Mobx如何去配置</h2>
+
+<p>1.首先构建脚手架项目,（其他文件可删除只留如下目录文件）</p>
+
+<ul>
+  <li><code class="highlighter-rouge">create-react-app MobxApp</code></li>
+</ul>
+
+<p><a href="http://localhost:4000/images/2019829/1.png"><img src="http://localhost:4000/images/2019829/1.png" alt="1" /></a></p>
+
+<p>2.然后安装mobx, mobx-react</p>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add mobx mobx-react</code></li>
+</ul>
+
+<p>3.## 重点来了（关于装饰器的配置）</p>
+<p><span>经常遇到的装饰器@符号不被识别，怎么解决呢？</span></p>
+<p>3.1 首先安装</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  customize-cra
+  react-app-rewired 
+  @babel/plugin-proposal-decorators
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add customize-cra react-app-rewired @babel/plugin-proposal-decorators --dev
+</code></li>
+</ul>
+
+<p>3.2然后在package.json中添加配置</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"babel": {
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      [
+        "transform-decorators-legacy"
+      ]
+    ]
+  }
+
+</code></pre></div></div>
+<p>再更改package.json中的”scripts”部分</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+
+</code></pre></div></div>
+
+<p>3.3然后在项目根目录新建config-overrides.js文件，再添加以下配置</p>
+
+<p><a href="http://localhost:4000/images/2019829/2.png"><img src="http://localhost:4000/images/2019829/2.png" alt="2" /></a></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> const { override, addDecoratorsLegacy } = require('customize-cra');
+module.exports = override(
+    addDecoratorsLegacy()
+)
+
+</code></pre></div></div>
+<p>4.这个时候我们便可以开始使用我们的mobx和装饰器了</p>
+<p>4.1在index.js里可以是初始化状态</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+ReactDOM.render(&lt;App /&gt;, document.getElementById('root'));
+
+</code></pre></div></div>
+
+<p>4.2在App.js里我们使用mobx和装饰器</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import React, { Component } from 'react';
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
+@observer
+class App extends Component {
+  @observable count = 1
+  render() {
+    return (
+      &lt;div className="App" &gt;
+        {this.count}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default App;
+
+</code></pre></div></div>
+
+<p>5.最后，我们的项目便可以跑起来了,yarn start正常运行项目</p>
+
+<ul>
+  <li><code class="highlighter-rouge">yarn add mobx mobx-react</code></li>
+</ul>
+
+:ET
